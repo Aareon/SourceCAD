@@ -4,7 +4,7 @@
 SARP CAD/MDT is a Python powered CAD/MDT system. Designed with dispatchers and law enforcement in mind, users are able to complete tasks such as call out codes, and other basic law enforcement and dispatcher events.
 
 ### Tech
-Chicken Ticket utilizes a number of technologies including, but not limited to:
+SARP CAD/MDT utilizes a number of technologies including, but not limited to:
 * [Python 3] - A powerful object oriented programming language, we love it!
 * [PostgreSQL] - An ACID-compliant database solution for storing information
 
