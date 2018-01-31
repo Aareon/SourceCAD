@@ -15,7 +15,9 @@ img {
 }
 
 body {
-  background-color: #4a4a4a;
+  background-image: url("image/background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
   padding: 0px;
   margin: 0px;
 }
@@ -50,13 +52,20 @@ h1 {
   width: 40%;
   height: 60%;
   background-color: #fff;
-  border-radius: 10px
+  border-radius: 4px;
+  box-shadow: 4px 4px 5px black;
 }
 
 p {
   font-size: 16px;
   font-weight: 100;
   font-style: italic;
+}
+
+h2 {
+  font-family: 'Helvetica', Arial, sans-serif;
+  font-weight: normal;
+  font-style: normal;
 }
 
 input {
@@ -86,21 +95,110 @@ input#submit {
   font-size: 20px;
   margin-top: 10px;
 }
+.nameheader {
+  margin-top: 110px;
+  width: auto;
+  background-color: white;
+  font-size: 25px;
+  font-weight: bolder;
+  padding-left: 10px;
+}
+
+.meta {
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  margin: 10px auto 10px auto;
+  height: 60%;
+}
+
+.departments {
+  margin-top: 200px;
+  padding-left: 20px;
+  margin: auto;
+  width: 40%;
+  height: 60%;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 4px 4px 5px black;
+}
+
+.button-dispatch {
+  border: none;
+  width: 60%;
+  background-color: #5e5e5e;
+  height: 80px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 21px;
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.button-leo {
+  border: none;
+  width: 60%;
+  background-color: #5e5e5e;
+  height: 80px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 21px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.button-civ {
+  border: none;
+  width: 60%;
+  background-color: #5e5e5e;
+  height: 80px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 21px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+#button:hover {
+  background-color: #4CAF50;
+}
 
 @media (max-width: 640px)
 {
-    #smallprint {
-      display: none;
+  #smallprint {
+    display: none;
     }
-    .image-top{
-      display: none;
+  .image-top{
+    display: none;
     }
-    #form_title {
-      font-weight: 200;
-      font-size: 20px;
+  #form_title {
+    font-weight: 200;
+    font-size: 20px;
     }
-    .login {
-      width: 100%;
-      border-radius: 0px;
+  .login {
+    width: 100%;
+    border-radius: 0px;
+    box-shadow: none;
     }
+  .departments {
+    width: 100%;
+    border-radius: 0px;
+    box-shadow: none;
+  }
+  body {
+    background-image: none;
+    background-color: #5e5e5e;
+  }
+  .nameheader {
+    display: none;
+  }
 }
