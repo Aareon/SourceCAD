@@ -1,10 +1,10 @@
 @font-face {
   font-family: "Pricedown";
-  src: url("fonts/pricedown.eot");
+  src: url("../fonts/pricedown.eot");
   src:
-  url("fonts/pricedown.woff") format("woff"),
-  url("fonts/pricedown.otf") format("opentype"),
-  url("fonts/pricedown.svg#filename") format("svg");
+  url("../fonts/pricedown.woff") format("woff"),
+  url("../fonts/pricedown.otf") format("opentype"),
+  url("../fonts/pricedown.svg#filename") format("svg");
 }
 
 img {
@@ -15,7 +15,7 @@ img {
 }
 
 body {
-  background-image: url("image/background.png");
+  background-image: url("../image/background.png");
   background-size: cover;
   background-repeat: no-repeat;
   padding: 0px;
