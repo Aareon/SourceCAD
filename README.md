@@ -32,7 +32,7 @@ $ py -3 -m pip install -r requirements.txt
 Want to contribute? We ❤️ pull requests!
 
 ### Todos
- - Design login page
+ - Design login page ✓
  - Account management
  - Design dispatcher resources
  - Design law enforcement resources
