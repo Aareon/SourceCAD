@@ -1,28 +1,70 @@
 @font-face {
   font-family: "Pricedown";
-  src: url("../fonts/pricedown.eot");
+  src: url("fonts/pricedown.eot");
   src:
-  url("../fonts/pricedown.woff") format("woff"),
-  url("../fonts/pricedown.otf") format("opentype"),
-  url("../fonts/pricedown.svg#filename") format("svg");
+  url("fonts/pricedown.woff") format("woff"),
+  url("fonts/pricedown.otf") format("opentype"),
+  url("fonts/pricedown.svg#filename") format("svg");
+}
+
+@font-face {
+  font-family: "Aileron";
+  src: url("fonts/Aileron-Black.eot");
+  src:
+  url("fonts/Aileron-Black.woff") format("woff"),
+  url("fonts/Aileron-Black.otf") format("opentype"),
+  url("fonts/Aileron-Black.svg#filename") format("svg");
+}
+/* all phone compatibility */
+@media (max-width: 480px) {
+  .header_all {
+    display: none;
+  }
+}
+
+/* all */
+.button_back {
+  width: 100%;
+  height: 30px;
+  border: none;
+  background-color: #5e5e5e;
+  font-size: 20px;
+  color: white;
+  text-align: left;
+  padding-left: 40px;
+  margin-bottom: 0px;
 }
 
 img {
   padding: 0px;
   margin: 0px;
   width: 100%;
-
 }
 
 body {
-  background-image: url("../image/background.png");
-  background-size: cover;
-  background-repeat: no-repeat;
+  /*background-image: url("image/background.png");
+  background-size: cover;*/
+  background-color: #ccc;
   padding: 0px;
   margin: 0px;
 }
 
-h1 {
+.header_all {
+  font-family: 'Aileron', Arial, sans-serif;
+  font-size: 40px;
+  color: red;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding: 0px;
+  margin-left: 25px;
+}
+
+.header_all > h1 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.h1 {
   font-family: 'pricedown', Arial, sans-serif;
   font-weight: normal;
   font-style: normal;
@@ -32,28 +74,6 @@ h1 {
 .header {
   margin: 80px auto 40px auto;
   display: flex;
-}
-
-.loginheader {
-  font-size: 50px;
-  margin: auto;
-}
-
-.meta {
-  font-family: Arial, Helvetica, sans-serif;
-  display: flex;
-  margin: 10px auto 10px auto;
-  height: 60%;
-}
-
-.login {
-  padding-left: 20px;
-  margin: auto;
-  width: 40%;
-  height: 60%;
-  background-color: #fff;
-  border-radius: 4px;
-  box-shadow: 4px 4px 5px black;
 }
 
 p {
@@ -83,6 +103,27 @@ input {
 input:focus {
   border: 2px solid #00e600;
 }
+/* login */
+.loginheader {
+  font-size: 50px;
+  margin: auto;
+}
+
+.meta {
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  margin: 10px auto 10px auto;
+  height: 60%;
+}
+
+.login {
+  padding-left: 20px;
+  margin: auto;
+  width: 40%;
+  height: 60%;
+  background-color: #fff;
+  border-radius: 4px;
+}
 
 input#submit {
   width: 90%;
@@ -96,7 +137,7 @@ input#submit {
   margin-top: 10px;
 }
 .nameheader {
-  margin-top: 110px;
+  margin-top: 10px;
   width: auto;
   background-color: white;
   font-size: 25px;
@@ -110,7 +151,7 @@ input#submit {
   margin: 10px auto 10px auto;
   height: 60%;
 }
-
+/* departments */
 .departments {
   margin-top: 200px;
   padding-left: 20px;
@@ -119,7 +160,6 @@ input#submit {
   height: 60%;
   background-color: #fff;
   border-radius: 4px;
-  box-shadow: 4px 4px 5px black;
 }
 
 .button-dispatch {
@@ -168,12 +208,19 @@ input#submit {
   justify-content: center;
 }
 
-#button:hover {
+button:hover {
   background-color: #4CAF50;
 }
 
-@media (max-width: 640px)
-{
+.button:hover {
+  background-color: #4CAF50;
+}
+/* Phone compatibility */
+@media (max-width: 480px) {
+  /* login */
+  input#submit {
+    border-radius: 0px;
+  }
   #smallprint {
     display: none;
     }
@@ -189,6 +236,11 @@ input#submit {
     border-radius: 0px;
     box-shadow: none;
     }
+    /* departments */
+  #button {
+    width: 100%;
+  }
+
   .departments {
     width: 100%;
     border-radius: 0px;
@@ -196,9 +248,148 @@ input#submit {
   }
   body {
     background-image: none;
-    background-color: #5e5e5e;
+    background-color: #ccc;
   }
   .nameheader {
     display: none;
+  }
+
+  /*police.html*/
+  .container1 > .main{
+    width: 100%;
+  }
+
+  .container1 > h4 {
+    text-decoration: underline;
+  }
+
+  .button_police, .codes {
+    width: 100%;
+    margin: none;
+    float: none;
+  }
+
+  .buttonofficer {
+    margin-top: 0px;
+    width: 100%;
+    margin: none;
+    float: none;
+  }
+
+  .main {
+    font-family: 'Helvetica', Arial, sans-serif;
+  }
+}
+  @media (min-width: 1024px) {
+    /* departments */
+    .button_police {
+      width: 30%;
+      margin-top: 10em;
+      margin-left: 10px;
+    }
+
+    .buttonofficer {
+      border: none;
+      background-color: #5e5e5e;
+      height: 80px;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      font-size: 21px;
+      width: 60%;
+      margin-top: 10px;
+    }
+
+    .codes {
+      float: right;
+      width: 30%;
+      margin-top: 10em;
+    }
+
+    .container1 > div {float: left;}
+
+    .main > h4 {
+      font-size: 23px;
+      color: white;
+      text-decoration: underline;
+    }
+
+    .main {
+      width: 35%;
+      font-size: 20px;
+      padding-top: 140px;
+      color: white;
+      font-family: 'Helvetica', Arial, sans-serif;
+    }
+  }
+@media (min-width: 1024px) {
+  /* civilian */
+  .form {
+    font-family: 'Helvetica', Arial, sans-serif;
+    margin-left: 20px;
+    width: 48%;
+    background-color: #fff;
+    padding-left: 20px;
+    border-radius: 2px;
+    margin-top: 110px;
+    padding-top: 10px;
+  }
+
+  .form > #formleft {order: 1;}
+  .form > #formright {order: 2;}
+
+  h4 {
+    margin-bottom: 0px;
+  }
+
+  #select_form {
+    height: auto;
+    width: 90%;
+    margin-bottom: 15px;
+    background-color: lightgray;
+    border: none;
+    padding-left: 10px;
+    font-size: 17px;
+    padding-bottom: 8px;
+    padding-top: 8px;
+  }
+
+  #select_form:focus {
+    border: 2px solid #00e600;
+  }
+
+  .civcontainer {
+    display: flex;
+    padding: 0px;
+  }
+}
+
+#check {
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+@media (max-width: 480px) {
+  .form {
+    padding-left: 20px;
+    margin-left: 10px;
+    font-family: 'Helvetica', Arial, sans-serif;
+    background: white;
+    width: 90%;
+  }
+  #select_form {
+    height: auto;
+    width: 90%;
+    margin-bottom: 15px;
+    background-color: lightgray;
+    border: none;
+    padding-left: 10px;
+    font-size: 17px;
+    padding-bottom: 8px;
+    padding-top: 8px;
+  }
+  h4 {
+    margin-bottom: 0px;
   }
 }
