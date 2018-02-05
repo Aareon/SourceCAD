@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width" />
+  <link rel="shortcut icon" href="image/favicon.ico" />
+  <link rel="stylesheet" href="style.css">
+  <title>Civilian | SARP MDT</title>
+</head>
+<body>
+  <div class="back">
+    <button onclick="window.location.href='http://cad.saroleplay.net/'" class="button_back" type="button" name="button">Back</button>
+  </div>
+  <div class="header_all">
+    <h1>SourceCAD</h1>
+  </div>
+  <div class="civcontainer">
+  <div class="form" id="formleft">
+    <form action="">
+      <h4>Character Name:</h4><br>
+      <input type="text" name="char_name" placeholder="John Doe">
+      <h4>D.O.B: <br> </h4>
+      <input type="date" name="char_age" placeholder="01/01/1111">
+      <h4>Address:<br></h4>
+      <input type="text" name="char_address" placeholder="714, Sandy Shores">
+      <h4>Stolen:</h4>  <input checked="checked" id="check" type="checkbox" name="veh_stolen"><br>
+      <input id="submit" type="submit" value="Register!">
+    </form>
+  </div>
+  <div class="form" id="formright">
+    <form action="">
+      <h4>Vehicle Model:</h4><br>
+      <input type="text" name="veh_model" placeholder="Karin Rebel">
+      <h4>Color:<br></h4>
+      <input type="text" name="veh_color" placeholder="Red">
+      <h4>Vehicle Owner:<br></h4>
+      <select id="select_form" name="veh_owner" size="4">
+        <option value="char"> list self charactrs</option>
+      </select>
+      <h4>License:</h4>  <input checked="checked" id="check" type="checkbox" name="char_license"><br>
+      <input id="submit" type="submit" value="Register!">
+    </form>
+  </div>
+</div>
+</body>
+</html>
