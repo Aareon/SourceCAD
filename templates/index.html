@@ -1,21 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="{{ url_for('static',filename='styles/style.css') }}">
-  <title>Computer Aided Dispatch | SourceCAD</title>
+  <meta name="viewport" content="width=device-width" />
+  <link rel="shortcut icon" href="image/favicon.ico" />
+  <link rel="stylesheet" href="style.css">
+  <title>Computer-aided design | SARP MDT</title>
 </head>
 <body>
+  <!-- header -->
+  <!--<div class="header_all">
+    <h1>SourceCAD</h1>
+  </div>-->
   <!--<img class="image-top" src="image/banner.png" alt=""> -->
   <div class="container">
     <div class="nameheader">
-      <h2>Officer Harry - 1K-18</h2>
+      <h2>{user_rank} {user_name} - {user_unit_number}</h2>
     </div>
     <div class="meta">
       <div class="departments">
         <form>
-          <center> <button onclick="window.location.href='http://cad.saroleplay.net/login'" id="button" class="button-dispatch" type="button" name="button">Dispatcher</button> </center>
-          <center> <button onclick="window.location.href='http://cad.saroleplay.net/login'" id="button" class="button-leo" type="button" name="button">Law Enforcement</button> </center>
-          <center> <button onclick="window.location.href='http://cad.saroleplay.net/login'" id="button" class="button-civ" type="button" name="button">Civilian</button> </center>
+          <!-- onclick inside '' is link where they want to go. -->
+          <center> <button onclick="window.location.href='http://cad.saroleplay.net/dispatch'" id="button" class="button-dispatch" type="button" name="button">Dispatcher</button> </center>
+          <center> <button onclick="window.location.href='http://cad.saroleplay.net/police'" id="button" class="button-leo" type="button" name="button">Law Enforcement</button> </center>
+          <center> <button onclick="window.location.href='http://cad.saroleplay.net/civilian'" id="button" class="button-civ" type="button" name="button">Civilian</button> </center>
         </form>
       </div>
     </div>
