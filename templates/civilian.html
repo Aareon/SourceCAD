@@ -3,12 +3,17 @@
 <head>
   <meta name="viewport" content="width=device-width" />
   <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
   <title>Civilian | SourceCAD</title>
 </head>
+<script>
+function goBack() {
+    window.history.back()
+}
+</script>
 <body>
   <div class="back">
-    <button onclick="window.location.href='http://cad.saroleplay.net/'" class="button_back" type="button" name="button">Back</button>
+    <button onclick="goBack()" class="button_back" type="button" name="button">Back</button>
   </div>
   <!--<div class="header_all">
     <h1>SourceCAD</h1>
