@@ -2,16 +2,142 @@
 <html lang="en">
 <head>
   <meta name="viewport" content="width=device-width" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}"/>
-  <link rel="shortcut icon" href="{{ url_for('static', filename='image/favicon.ico') }}"/>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
   <title>Dispatch | SourceCAD</title>
 </head>
 <body>
   <div class="back">
     <button onclick="window.location.href='http://cad.saroleplay.net/'" class="button_back" type="button" name="button">Back</button>
   </div>
-  <div class="header_all">
+  <!--<div class="header_all">
     <h1>SourceCAD</h1>
+  </div>-->
+
+  <div class="dispatch-container">
+    <div class="dispatch-buttons">
+      <button class="single_button" type="button" name="button">Unit</button>
+      <button class="single_button" type="button" name="button">Callout</button>
+      <button class="single_button" type="button" name="button">BOLOs</button>
+      <button class="single_button" type="button" name="button">Warrant</button>
+      <button style="background-color:tomato;" class="single_button" type="button" name="button">Signal 100</button>
+    </div>
+
+    <div class="dispatch-callout">
+      <h1>Current Callouts:</h1>
+        <div class="dispatch-calls">
+          <div class="dispatch-callout-current">
+            Reason: {reason} <br>
+            Location: {location} <br>
+            Details: {details}<br>
+            On-scene Units: {units} <br>
+          </div>
+          <div class="dispatch-callout-current">
+            Reason: {reason} <br>
+            Location: {location} <br>
+            Details: {details}<br>
+            On-scene Units: {units} <br>
+          </div>
+          <div class="dispatch-callout-current">
+            Reason: {reason} <br>
+            Location: {location} <br>
+            Details: {details}<br>
+            On-scene Units: {units} <br>
+          </div>
+          <div class="dispatch-callout-current">
+            Reason: {reason} <br>
+            Location: {location} <br>
+            Details: {details}<br>
+            On-scene Units: {units} <br>
+          </div>
+          <div class="dispatch-callout-current">
+            Reason: {reason} <br>
+            Location: {location} <br>
+            Details: {details}<br>
+            On-scene Units: {units} <br>
+          </div>
+          <div class="dispatch-callout-current">
+            Reason: {reason} <br>
+            Location: {location} <br>
+            Details: {details}<br>
+            On-scene Units: {units} <br>
+          </div>
+          <div class="dispatch-callout-current">
+            Reason: {reason} <br>
+            Location: {location} <br>
+            Details: {details}<br>
+            On-scene Units: {units} <br>
+          </div>
+          <div class="dispatch-callout-current">
+            Reason: {reason} <br>
+            Location: {location} <br>
+            Details: {details}<br>
+            On-scene Units: {units} <br>
+          </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="dispatch-bolos">
+      <h1>Current BOLOs:</h1>
+        <div class="dispatch-calls">
+          <div class="dispatch-callout-current">
+            Reason: {reason} <br>
+            Location: {location} <br>
+            Details: {details}<br>
+            On-scene Units: {units} <br>
+          </div>
+          <div class="dispatch-callout-current">
+            Reason: {reason} <br>
+            Location: {location} <br>
+            Details: {details}<br>
+            On-scene Units: {units} <br>
+          </div>
+          <div class="dispatch-callout-current">
+            Reason: {reason} <br>
+            Location: {location} <br>
+            Details: {details}<br>
+            On-scene Units: {units} <br>
+          </div>
+          <div class="dispatch-callout-current">
+            Reason: {reason} <br>
+            Location: {location} <br>
+            Details: {details}<br>
+            On-scene Units: {units} <br>
+          </div>
+          <div class="dispatch-callout-current">
+            Reason: {reason} <br>
+            Location: {location} <br>
+            Details: {details}<br>
+            On-scene Units: {units} <br>
+          </div>
+          <div class="dispatch-callout-current">
+            Reason: {reason} <br>
+            Location: {location} <br>
+            Details: {details}<br>
+            On-scene Units: {units} <br>
+          </div>
+          <div class="dispatch-callout-current">
+            Reason: {reason} <br>
+            Location: {location} <br>
+            Details: {details}<br>
+            On-scene Units: {units} <br>
+          </div>
+          <div class="dispatch-callout-current">
+            Reason: {reason} <br>
+            Location: {location} <br>
+            Details: {details}<br>
+            On-scene Units: {units} <br>
+          </div>
+        </div>
+    </div>
+
+
+
+
+
   </div>
 </body>
 </html>

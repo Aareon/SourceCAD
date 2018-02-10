@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta name="viewport" content="width=device-width" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}"/>
-  <link rel="shortcut icon" href="{{ url_for('static', filename='image/favicon.ico') }}"/>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
   <title>Login | SourceCAD</title>
 </head>
 <body>
@@ -20,12 +20,10 @@
     <div class="login">
       <h2>Login<h2>
       <!-- smallprint on the login page -->
-      <p id="smallprint">Your credentials are given via Discord, if you have not recieved them, message the administration or email help@saroleplay.net</p>
-      <form action="" method="POST">
-        <div id="form_title"> Unit Number:<br></div>
-        <input type="text" name="units" placeholder="(E.G) 1K-25">
-        <div id="form_title">Password:<br></div>
-        <input type="password" name="password" placeholder="*******">
+      <p id="smallprint">Your credentials are given via discord, if you have not recieved them, message the administration or email help@saroleplay.net</p>
+      <form method="POST" action="">
+        <input type="text" name="units" placeholder="Unit Number: (1K-25)">
+        <input type="password" name="password" placeholder="Password: (*******)">
         <input id="submit" type="submit" value="Login">
       </form>
     </div>
