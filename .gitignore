@@ -102,3 +102,6 @@ ENV/
 
 # VSCode
 .vscode/
+
+# Flask secret key
+.secret
