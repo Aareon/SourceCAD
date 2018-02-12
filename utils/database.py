@@ -21,10 +21,10 @@ class User(Base):
 
 
     def __repr__(self):
-        return '<User(id={0}, email='{1}', username='{2}', pass_hash='{3}', \
+        return '<User(id={0}, email=\'{1}\', username=\'{2}\', pass_hash=\'{3}\', \
         is_civilian={4}, is_dispatch{5}, is_police={6})>'.format(self.id,
                                                                  self.email,
-                                                                 self.username
+                                                                 self.username,
                                                                  self.pass_hash,
                                                                  self.is_civilian,
                                                                  self.is_dispatch,
@@ -41,6 +41,15 @@ class Character(Base):
     ccp_license = Column(Boolean, default=False, nullable=False)
     ocp_license = Column(Boolean, default=False, nullable=False)
 
+    def __repr__(self):
+        return '<Character(id={0}, name=\'{1}\', age={2}, address=\'{3}\', \
+        drivers_license={4}, ccp_license={5}, ocp_license={6})>'.format(self.id,
+                                                                        self.age,
+                                                                        self.address,
+                                                                        self.drivers_license,
+                                                                        self.ccp_license,
+                                                                        self.ocp_license)
+
 class Registration(Base):
     __tablename__ = 'registrations'
 
@@ -50,6 +59,15 @@ class Registration(Base):
     model = Column(String(32), nullable=False)
     tag_number = Column(String(16), nullable=False)
     insurance = Column(Boolean, default=True, nullable=False)
+
+    def __repr__(self):
+        return '<Registration(id={0}, owner=\'{1}\', make=\'{2}\', model=\'{3}\', \
+        tag_number=\'{4}\', insurance={5})>'.format(self.id,
+                                                    self.owner,
+                                                    self.make,
+                                                    self.model,
+                                                    self.tag_number,
+                                                    self.insurance)
 
 class Database:
     def __init__(self):
