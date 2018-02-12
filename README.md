@@ -6,7 +6,7 @@ SourceCAD is a Python powered CAD/MDT system. Designed with dispatchers and law 
 ### Tech
 SourceCAD utilizes a number of technologies including, but not limited to:
 * [Python 3] - A powerful object oriented programming language, we love it!
-* [PostgreSQL] - An ACID-compliant database solution for storing information
+* [SQLite] - An ACID-compliant database solution for storing information in a single locally stored file
 
 ### Installing from source
 SourceCAD requires [Python](https://python.org/) 3.5+ to run.
