@@ -1,20 +1,20 @@
 @font-face {
   font-family: "pricedown";
-  src: url("fonts/pricedown.eot");
-  src: url("fonts/pricedown.woff") format("woff"), url("fonts/pricedown.otf") format("opentype"), url("fonts/pricedown.svg#filename") format("svg");
+  src: url("../fonts/pricedown.eot");
+  src: url("../fonts/pricedown.woff") format("woff"), url("../fonts/pricedown.otf") format("opentype"), url("../fonts/pricedown.svg#filename") format("svg");
 }
 
 @font-face {
   font-family: "Aileron";
-  src: url("fonts/Aileron-Black.eot");
-  src: url("fonts/Aileron-Black.woff") format("woff"), url("fonts/Aileron-Black.otf") format("opentype"), url("fonts/Aileron-Black.svg#filename") format("svg");
+  src: url("../fonts/Aileron-Black.eot");
+  src: url("fonts/Aileron-Black.woff") format("woff"), url("../fonts/Aileron-Black.otf") format("opentype"), url("../fonts/Aileron-Black.svg#filename") format("svg");
 }
 
 /* all phone compatibility */
 
 @media (max-width: 480px) {
   body {
-    background-image: url("image/background_mobile.png");
+    background-image: url("../image/background_mobile.png");
     background-size: cover;
     background-attachment: fixed;
   }
@@ -36,7 +36,7 @@
 
 @media (min-width: 1080px) {
   body {
-    background-image: url("image/background.png");
+    background-image: url("../image/background.png");
     background-size: cover;
     background-attachment: fixed;
   }
