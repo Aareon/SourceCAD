@@ -635,3 +635,24 @@ tr:nth-child(odd) {
   border-radius: 2px;
   padding: 20px;
 }
+
+/* error.html */
+#error {
+  font-family: 'Helvetica', Arial, sans-serif;
+  width: 95%;
+  padding: 20px;
+  margin: 12% auto 25% auto;
+  font-size: 17px;
+  background-color: #ff4d4d;
+  border-radius: 5px;
+}
+
+#error > h1 {
+  padding: 0px;
+  font-size: 30px;
+}
+
+#h1_underlines {
+  width: 100%;
+  border-bottom: 2px solid black;
+}
