@@ -14,7 +14,6 @@ class User(Base):
     email = Column(String(length=255), unique=True, nullable=True)
     username = Column(String(length=32), unique=True, nullable=True)
     pass_hash = Column(String(length=255), unique=True, nullable=False)
-    pass_salt = Column(String(length=255), unique=True, nullable=False)
     unit_number = Column(String(length=4), unique=True, nullable=True, default='')
     rank = Column(String(length=54), unique=False, nullable=True, default='')
     is_civilian = Column(Integer, unique=False, default=0)
@@ -158,17 +157,17 @@ class Database:
         try:
             # get user data using email
             if use_email:
-                id, pass_hash, pass_salt = self.session.query(User.id, User.pass_hash, User.pass_salt).filter_by(email=item).all()[0]
+                id, pass_hash = self.session.query(User.id, User.pass_hash).filter_by(email=item).all()[0]
 
             # get user data using unit number
             if use_unit_number:
-                id, pass_hash, pass_salt = self.session.query(User.id, User.pass_hash, User.pass_salt).filter_by(unit_number=item).all()[0]
+                id, pass_hash = self.session.query(User.id, User.pass_hash).filter_by(unit_number=item).all()[0]
 
             # return the id as well as the encoded password hash and salt ready for hashing and verifying
-            return (id, pass_hash.encode('utf-8'), pass_salt.encode('utf-8'))
+            return (id, pass_hash)
         except:
             # something happened. Oh well
-            return (None, None, None)
+            return (None, None)
 
     def get_user_info(self, id=None):
         # start integrating errors

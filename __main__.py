@@ -1,12 +1,11 @@
 import logging
 from os import urandom
 import sys
-from bcrypt import gensalt, hashpw
+from passlib.hash import bcrypt
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 from utils.database import Database, User
 
 # create a Flask application with name "__main__"
-logging.info('Creating `app`')
 db = Database()
 app = Flask(__name__)
 
@@ -48,22 +47,21 @@ def login():
             return index()
 
         # get old password hash and salt for a given user from database
-        id, pass_hash, pass_salt = db.get_password(units, use_email=use_email, use_unit_number=use_unit_number)
+        id, pass_hash = db.get_password(units, use_email=use_email, use_unit_number=use_unit_number)
 
         # in case a specific user doesn't exist
         if id is None:
             return index()
 
-        # encode password for hashing
-        password = password.encode('utf-8')
-        # hash input password with the old salt, if the result matches the old hash, login
-        if hashpw(password, pass_salt) == pass_hash:
+        # verify password matches previous hash
+        if bcrypt.verify(password, pass_hash):
             session['user_id'] = id
             session['logged_in'] = True
 
         # complete login... or not.
         return redirect(url_for('index'))
-
+    
+    # in case of 'GET' request
     else:
         return render_template('login.html')
 
