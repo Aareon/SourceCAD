@@ -14,16 +14,26 @@
   <!--<img class="image-top" src="image/banner.png" alt=""> -->
   <div class="container">
     <div class="nameheader">
-      <h2>{user_rank} {user_name} - {user_unit_number}</h2>
+      <h2>{{user_rank}} {{user_name}} - {{user_unit_number}}</h2>
     </div>
     <div class="meta">
       <div class="departments">
-        <form>
           <!-- onclick inside '' is link where they want to go. -->
-          <center> <button onclick="window.location.href='http://cad.saroleplay.net/dispatch'" id="button" class="button-dispatch" type="button" name="button">Dispatcher</button> </center>
-          <center> <button onclick="window.location.href='http://cad.saroleplay.net/police'" id="button" class="button-leo" type="button" name="button">Law Enforcement</button> </center>
-          <center> <button onclick="window.location.href='http://cad.saroleplay.net/civilian'" id="button" class="button-civ" type="button" name="button">Civilian</button> </center>
+        {% if session.is_dispatch %}
+        <form action="/dispatch" method="GET">
+            <center> <button class="button-dispatch" type="submit">Dispatcher</button> </center>
         </form>
+        {% endif %}
+        {% if session.is_police %}
+        <form action="/police" method="GET">
+          <center> <button class="button-leo" type="submit">Law Enforcement</button> </center>
+        </form>
+        {% endif %}
+        {% if session.is_civilian %}
+        <form action="/civilian" method="GET">
+          <center> <button class="button-civ" type="submit">Civilian</button> </center>
+        </form>
+        {% endif %}
       </div>
     </div>
   </div>
