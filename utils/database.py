@@ -14,14 +14,12 @@ class User(Base):
     email = Column(String(length=255), unique=True, nullable=True)
     username = Column(String(length=32), unique=True, nullable=True)
     pass_hash = Column(String(length=255), unique=True, nullable=False)
-    pass_salt = Column(String(length=255), unique=True, nullable=False)
     unit_number = Column(String(length=4), unique=True, nullable=True, default='')
     rank = Column(String(length=54), unique=False, nullable=True, default='')
     is_civilian = Column(Integer, unique=False, default=0)
     is_dispatch = Column(Integer, unique=False, default=0)
     is_police = Column(Integer, unique=False, default=0)
     is_admin = Column(Integer, unique=False, default=0)
-
 
     def __repr__(self):
         return '<User(id={0}, email=\'{1}\', username=\'{2}\', pass_hash=\'{3}\', \
@@ -76,9 +74,8 @@ class Bolo(Base):
     __tablename__ = 'bolos'
 
     id = Column(Integer, primary_key=True, nullable=False)
-    author = Column(ForeignKey('characters.name'), nullable=False)
     reason = Column(String(length=140), nullable=True)
-    last_seen = Column(String(length=255), nullable=True)
+    location = Column(String(length=255), nullable=True)
     description = Column(String(length=255), nullable=True)
     notes = Column(String(length=255), nullable=True)
 
@@ -126,9 +123,9 @@ class Callout(Base):
     __tablename__ = 'callouts'
 
     id = Column(Integer, primary_key=True, nullable=False)
-    code = Column(String(length=255), nullable=False)
     reason = Column(String(length=255), nullable=True)
     location = Column(String(length=255), nullable=True)
+    details = Column(String(length=255), nullable=True)
     present_units = Column(String(length=255), nullable=True)
 
     def __repr__(self):
@@ -158,17 +155,17 @@ class Database:
         try:
             # get user data using email
             if use_email:
-                id, pass_hash, pass_salt = self.session.query(User.id, User.pass_hash, User.pass_salt).filter_by(email=item).all()[0]
+                id, pass_hash = self.session.query(User.id, User.pass_hash).filter_by(email=item).all()[0]
 
             # get user data using unit number
             if use_unit_number:
-                id, pass_hash, pass_salt = self.session.query(User.id, User.pass_hash, User.pass_salt).filter_by(unit_number=item).all()[0]
+                id, pass_hash = self.session.query(User.id, User.pass_hash).filter_by(unit_number=item).all()[0]
 
             # return the id as well as the encoded password hash and salt ready for hashing and verifying
-            return (id, pass_hash.encode('utf-8'), pass_salt.encode('utf-8'))
+            return (id, pass_hash)
         except:
             # something happened. Oh well
-            return (None, None, None)
+            return (None, None)
 
     def get_user_info(self, id=None):
         # start integrating errors
@@ -186,3 +183,9 @@ class Database:
                                       User.is_admin).filter_by(id=id).all()[0]
         except:
             return (None, None, None, None, None, None, None, None, None)
+
+    def get_callouts(self):
+        return self.session.query(Callout.id, Callout.reason, Callout.location, Callout.details, Callout.present_units).all()
+
+    def get_bolos(self):
+        return self.session.query(Bolo.id, Bolo.reason, Bolo.location, Bolo.description, Bolo.notes).all()
