@@ -21,7 +21,6 @@ class User(Base):
     is_police = Column(Integer, unique=False, default=0)
     is_admin = Column(Integer, unique=False, default=0)
 
-
     def __repr__(self):
         return '<User(id={0}, email=\'{1}\', username=\'{2}\', pass_hash=\'{3}\', \
         is_civilian={4}, is_dispatch{5}, is_police={6})>'.format(self.id,
@@ -75,9 +74,8 @@ class Bolo(Base):
     __tablename__ = 'bolos'
 
     id = Column(Integer, primary_key=True, nullable=False)
-    author = Column(ForeignKey('characters.name'), nullable=False)
     reason = Column(String(length=140), nullable=True)
-    last_seen = Column(String(length=255), nullable=True)
+    location = Column(String(length=255), nullable=True)
     description = Column(String(length=255), nullable=True)
     notes = Column(String(length=255), nullable=True)
 
@@ -125,9 +123,9 @@ class Callout(Base):
     __tablename__ = 'callouts'
 
     id = Column(Integer, primary_key=True, nullable=False)
-    code = Column(String(length=255), nullable=False)
     reason = Column(String(length=255), nullable=True)
     location = Column(String(length=255), nullable=True)
+    details = Column(String(length=255), nullable=True)
     present_units = Column(String(length=255), nullable=True)
 
     def __repr__(self):
@@ -185,3 +183,9 @@ class Database:
                                       User.is_admin).filter_by(id=id).all()[0]
         except:
             return (None, None, None, None, None, None, None, None, None)
+
+    def get_callouts(self):
+        return self.session.query(Callout.id, Callout.reason, Callout.location, Callout.details, Callout.present_units).all()
+
+    def get_bolos(self):
+        return self.session.query(Bolo.id, Bolo.reason, Bolo.location, Bolo.description, Bolo.notes).all()
