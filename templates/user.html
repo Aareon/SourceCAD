@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width" />
+   <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" />
+   <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+   <title>User area | SourceCAD</title>
+
+  <script>
+  function goBack() {
+    window.history.back()
+  }
+</script>
+</head>
+
+<header>
+  <div class="back">
+    <button onclick="goBack()'" class="button_back" type="button" name="button">Back</button>
+  </div>
+</header>
+
+<body>
+  <div class="user_container">
+    <div class="user_edit_form">
+      <input style="width:100%;" type="text" name="user_name" placeholder="{{username}}">
+      <input style="width:100%;" type="text" name="user_password" placeholder="New Password">
+      <input style="width:100%;" type="text" name="user_email" placeholder="{{user_email}}">
+      <input id="submit" style="width:100%;margin:0px;" type="submit" value="Edit User">
+    </div>
+  </div>
+</body>
+</html>

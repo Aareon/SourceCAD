@@ -1,46 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta name="viewport" content="width=device-width" />
-  <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
-  <title>Dispatch | SourceCAD</title>
+   <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" />
+   <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+   <title>Dispatch | SourceCAD</title>
+
+  <script>
+    function goBack() {
+      window.history.back()
+    }
+  </script>
 </head>
-<body>
+
+<header>
   <div class="back">
     <button onclick="goBack()" class="button_back" type="button" name="button">Back</button>
   </div>
+</header>
+
+<body>
   <!--<div class="header_all">
     <h1>SourceCAD</h1>
   </div>-->
 
   <div class="dispatch-container">
     <div class="dispatch-buttons">
-      <button class="single_button" type="button" name="button">Unit</button>
-      <button class="single_button" type="button" name="button">Callout</button>
-      <button class="single_button" type="button" name="button">BOLOs</button>
-      <button class="single_button" type="button" name="button">Warrant</button>
+      <button id="modalBtn" class="single_button" type="button" name="button">Unit</button>
+      <button id="modalBtn-callout" class="single_button" type="button" name="button">Callout</button>
+      <button id="modalBtn-bolo" class="single_button" type="button" name="button">BOLOs</button>
+      <button id="modalBtn-warrant" class="single_button" type="button" name="button">Warrant</button>
       <button style="background-color:tomato;" class="single_button" type="button" name="button">Signal 100</button>
+    </div>
+
+    <div class="modal" id="simpleModal">
+      <div class="modal-content">
+        <span class="closeBtn">&times;</span>
+        <form border="  border: 2px solid #eee;" method="POST" action="">
+          <input type="text" style="width: 90%;" placeholder="Unit Number (1B-18)">
+          <input type="text" style="width: 90%;" placeholder="Unit Name (Officer John)">
+          <h3 style="font-family: 'Helvetica', Arial, sans-serif;margin-bottom:5px;">Unit Division:</h3><br>
+          <select id="unit_select" name="division" size="5">
+            <option value="PBPD">PBPD</option>
+            <option value="BCSO">BCSO</option>
+            <option value="SSPD">SSPD</option>
+            <option value="LSPD">LSPD</option>
+            <option value="SAHP">SAHP</option>
+          </select>
+          <button id="officer_submit" type="button" name="button">Add Unit</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal-callout" id="simpleModal-callout">
+      <div class="modal-content">
+        <span class="closeBtn-callout">&times;</span>
+        <input style="width:95%;" type="text" name="create_callout_reason" placeholder="Reason">
+        <input style="width:95%;" type="text" name="create_callout_location" placeholder="Location">
+        <input style="width:95%;" type="text" name="create_callout_details" placeholder="Details">
+        <h3 style="font-family: 'Helvetica', Arial, sans-serif;margin-bottom:5px;">Current Units</h3><br>
+        <select style="width:95%;" id="unit_select" name="division">
+          <option value="current_units">{{online units}}</option>
+        </select>
+        <br><input id="submit" style="width:95%;height: 45px;" type="submit" value="Create Callout">
+      </div>
+    </div>
+
+    <div class="modal-bolo" id="simpleModal-bolo">
+      <div class="modal-content">
+        <span class="closeBtn-bolo">&times;</span>
+        <form style="border: 2px solid #eee;" method="POST" action="">
+          <input type="text" style="width: 90%;" placeholder="Initiating Officer">
+          <input type="text" style="width: 90%;" placeholder="Reason">
+          <textarea style="width:90%;font-size:18px;background-color:#ccc;" rows="4" cols="50" placeholder="Details"></textarea>
+          <button id="officer_submit" type="button" name="button">Add Bolo</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal-warrant" id="simpleModal-warrant">
+      <div class="modal-content">
+        <span class="closeBtn-warrant">&times;</span>
+        <form style="border: 2px solid #eee;" method="POST" action="">
+          <input type="text" style="width: 90%;" placeholder="Name">
+          <input type="text" style="width: 90%;" placeholder="Reason">
+          <input type="text" style="width: 90%;" placeholder="Class [Misdemeanor / Felony]">
+          <button id="officer_submit" type="button" name="button">Add Warrant</button>
+        </form>
+      </div>
     </div>
 
     <div class="dispatch-callout">
       <h1>Current Callouts:</h1>
-        <div class="dispatch-calls">
-          {{callouts}}
+      <div class="dispatch-calls">
+        <div class="dispatch-callout-current">
+          {{callouts}}<br>
+          <button id="modalBtn" class="edit_btn" type="button" name="button">Edit</button>
         </div>
+      </div>
     </div>
-
     <div class="dispatch-bolos">
       <h1>Current BOLOs:</h1>
-        <div class="dispatch-calls">
+      <div class="dispatch-calls">
+        <div class="dispatch-callout-current">
           {{bolos}}
+          <button id="modalBtn" class="edit_btn" type="button" name="button">Edit</button>
+
         </div>
+      </div>
     </div>
-
-
-
-
-
   </div>
+
+  <script src="../js/dispatch.js"></script>
+
 </body>
+
 </html>

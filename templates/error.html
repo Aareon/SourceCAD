@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width" />
+  <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+  <title>Dispatch | SourceCAD</title>
+
+  <script>
+  function goBack() {
+    window.history.back()
+  }
+</script>
+</head>
+
+<header>
+  <div class="back">
+    <button onclick="goBack()'" class="button_back" type="button" name="button">Back</button>
+  </div>
+</header>
+
+<body>
+  <div id="error_container">
+    <div id="error">
+      <h1 id="h1_underlines">ERROR</h1><br>
+      There was an issue with your request.
+    </div>
+  </div>
+</body>
+</html>

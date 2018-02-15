@@ -1,26 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta name="viewport" content="width=device-width"/>
-  <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
-  <title>Police System | SourceCAD</title>
+  <meta name="viewport" content="width=device-width" />
+   <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" />
+   <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+   <title>Law Enforcement | SourceCAD</title>
   <style>
-  button {
-    border: none;
-    background-color: #5e5e5e;
-    height: 80px;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    font-size: 21px;
+    button {
+      border: none;
+      background-color: #5e5e5e;
+      height: 80px;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      font-size: 21px;
+    }
+  </style>
+
+  <script>
+  function goBack() {
+    window.history.back()
   }
-</style>
+</script>
 </head>
-<body>
+
+<header>
   <div class="back">
     <button onclick="goBack()" class="button_back" type="button" name="button">Back</button>
   </div>
+</header>
+
+<body>
   <!--<div class="header_all">
     <h1>SourceCAD</h1>
   </div>-->
@@ -28,30 +39,58 @@
     <div class="button_police">
       <form>
         <!-- Search NCIC -->
-        <center> <button class="buttonofficer" type="button" name="button">Search <br>NCIC</button> </center>
+        <center> <button id="modalBtn" class="buttonofficer" type="button" name="button">Search <br>NCIC</button> </center>
         <!-- Search Plate -->
-        <center> <button class="buttonofficer" type="button" name="button">Search <br>PLATE</button> </center>
+        <center> <button id="modalBtn-plate" class="buttonofficer" type="button" name="button">Search <br>PLATE</button> </center>
         <!-- Add ticket -->
-        <center> <button class="buttonofficer" type="button" name="button">Add <br>TICKET</button> </center>
+        <center> <button id="modalBtn-ticket" class="buttonofficer" type="button" name="button">Add <br>TICKET</button> </center>
         <!-- Panic Button -->
         <center> <button class="buttonofficer" type="button" name="button">PANIC <br>BUTTON</button> </center>
         <!-- Current Callout -->
         <!-- BOLOs -->
       </form>
     </div>
+    <div class="modal" id="simpleModal">
+      <div class="modal-content">
+        <span class="closeBtn">&times;</span>
+        <input style="width:80%;" type="text" name="search_ncic" placeholder="Search Database"><input id="submit" style="width:15%;height: 45px;" type="submit" value="Search">
+      </div>
+    </div>
+    <div class="modal-plate" id="simpleModal-plate">
+      <div class="modal-content">
+        <span class="closeBtn-plate">&times;</span>
+        <input style="width:80%;" type="text" name="search_ncic" placeholder="Search Database"><input id="submit" style="width:15%;height: 45px;" type="submit" value="Search">
+      </div>
+    </div>
+    <div class="modal-ticket" id="simpleModal-ticket">
+      <div class="modal-content">
+        <span class="closeBtn-ticket">&times;</span>
+        <input style="width:80%;" type="text" name="add_ticket_charname" placeholder="Person">
+        <input style="width:80%;" type="text" name="add_ticket_charage" placeholder="Person's Age">
+        <input style="width:80%;" type="text" name="add_ticket_reason" placeholder="Reason">
+        <input style="width:80%;" type="text" name="add_ticket_amount" placeholder="Ticket Amount">
+        <br><input id="submit" style="width:80%;height: 45px;" type="submit" value="Add ticket">
+      </div>
+    </div>
     <div class="main">
-      <h4>Call</h4> - {insert current call}  <h4>Units</h4> - {insert on scene units} <br> <h4>Location</h4> - {insert location of call}  <h4>Time</h4> - {insert current time}
+      <h4>Call</h4> - {insert current call}
+      <h4>Units</h4> - {insert on scene units}
+      <h4>Location</h4> - {insert location of call}
+      <h4>Time</h4> - {insert current time}
     </div>
     <div class="codes">
       <form>
         <!-- 10/8 -->
-        <center> <button class="buttonofficer" type="button" name="button">10/8</button> </center>
+        <center> <button class="buttonofficer" type="button" name="button">10-8</button> </center>
         <!-- 10/7 -->
-        <center> <button class="buttonofficer" type="button" name="button">10/7</button> </center>
+        <center> <button class="buttonofficer" type="button" name="button">10-7</button> </center>
         <!-- 10/6 -->
-        <center> <button class="buttonofficer" type="button" name="button">10/6</button> </center>
+        <center> <button class="buttonofficer" type="button" name="button">10-6</button> </center>
       </form>
     </div>
   </div>
+
+  <script src="../js/police.js"></script>
 </body>
+
 </html>
