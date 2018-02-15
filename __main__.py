@@ -139,6 +139,16 @@ def civilian():
 
     return redirect(url_for('index'))
 
+@app.route('/admin')
+def admin():
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    if not session.get('is_admin'):
+        return redirect(url_for('index'))
+
+    return render_template('admin.html')
+
 if __name__ == '__main__':
     app.config['SECRET_KEY'] = urandom(24)
     app.run()

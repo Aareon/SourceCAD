@@ -34,6 +34,11 @@
           <center> <button class="button-civ" type="submit">Civilian</button> </center>
         </form>
         {% endif %}
+        {% if session.is_admin %}
+        <form action="/admin" method="GET">
+          <center> <button class="button-admin" type="submit">Admin</button> </center>
+        </form>
+        {% endif %}
       </div>
     </div>
   </div>
