@@ -14,6 +14,8 @@
 
 @media (max-width: 480px) {
   body {
+    font-family: 'Helvetica', Arial, sans-serif;
+
     background-image: url("../image/background_mobile.png");
     background-size: cover;
     background-attachment: fixed;
@@ -36,6 +38,7 @@
 
 @media (min-width: 1080px) {
   body {
+    font-family: 'Helvetica', Arial, sans-serif;
     background-image: url("../image/background.png");
     background-size: cover;
     background-attachment: fixed;
@@ -162,6 +165,19 @@ input#submit {
   display: inline-block;
   font-size: 20px;
   margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+input#remove {
+  width: 90%;
+  background-color: #FF3D13;
+  height: 40px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  margin-top: 0px;
 }
 
 .nameheader {
@@ -647,10 +663,44 @@ tr:nth-child(odd) {
 
 .adduser {
   font-family: 'Helvetica', Arial, sans-serif;
-  margin: 40px 10px 10px 10px;
+  margin: 40px 10px 10px 40px;
   background-color: #fff;
   border-radius: 2px;
   padding: 20px;
+  width: 45%;
+  float: left;
+}
+
+.edit_user {
+  background-color: #fff;
+  font-family: 'Helvetica', Arial, sans-serif;
+  margin: 40px 40px 10px 10px;
+  width: 45%;
+  padding: 20px;
+  float: right;
+}
+
+.registration-admin {
+  margin: 40px 40px 10px 40px;
+  clear: both;
+  background-color: #fff;
+  padding: 8px;
+}
+
+#mini-header-admin {
+  font-size: 25px;
+  text-decoration: underline;
+  font-style: normal;
+  margin: 5px;
+}
+
+#single-registration {
+  height: 50px;
+  margin-top: 0px;
+  font-size: 18px;
+  padding: 2px;
+  background-color: #bbb;
+  border-bottom: 1.5px solid black;
 }
 
 /* error.html */
@@ -724,7 +774,7 @@ tr:nth-child(odd) {
 
 .modal-content {
   background-color: #f4f4f4;
-  margin: 20% auto;
+  margin: 10% auto;
   padding: 20px;
   width: 64%;
   box-shadoq: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.2);
