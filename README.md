@@ -38,6 +38,10 @@ Want to contribute? We ❤️ pull requests!
  - Design law enforcement resources
  - Discord integration
 
+### Contributors
+ - 🐍 Aareon 🐳#0001 - Project lead and Lead of Backend Development
+ - harryjoseph#3275 - Lead of Frontend Design and Development
+
 License
 ----
 GPL
