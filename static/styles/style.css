@@ -985,3 +985,63 @@ tr:nth-child(odd) {
   text-decoration: none;
   cursor: pointer;
 }
+
+.registration-meta {
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  /*margin: 10px auto 10px auto;*/
+  height: 60%;
+}
+
+.registration {
+  padding: 20px;
+  margin: auto;
+  width: 40%;
+  height: 50%;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+#cancel {
+  width: 98%;
+  background-color: #848484;
+  color: white;
+  height: 40px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  border: none;
+  margin-top: 0px;
+}
+
+@media screen and (max-width: 480px) {
+  .registration-meta {
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    /*margin: 10px auto 10px auto;*/
+    height: 60%;
+  }
+
+  .registration {
+    padding: 20px;
+    margin: auto;
+    width: 100%;
+    height: auto;
+    background-color: #fff;
+    border-radius: 4px;
+  }
+
+  #cancel {
+    width: 98%;
+    background-color: #848484;
+    color: white;
+    height: 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    border: none;
+    margin-top: 0px;
+  }
+}
