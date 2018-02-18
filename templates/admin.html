@@ -29,15 +29,12 @@
           <caption>Users</caption>
           <tr>
             <th>User</th>
-            <th>Password</th>
-
             <th>Role</th>
             <th>User Snowflake</th>
           </tr>
           <!-- in onclick="%edit%" change the hash to a edit portion -->
           <tr onclick="#">
-            <td>{{username}}</td>
-            <td>{{user_pass}}</td>
+            <td>{{user}}</td>
             <td>{{user_role}}</td>
             <td>{{user_snowflake}}</td>
           </tr>
@@ -55,10 +52,10 @@
           </tr>
           <!-- in onclick="%edit%" change the hash to a edit portion -->
           <tr onclick="#">
-            <td>{{username}}</td>
+            <td>{{user}} {{user_number}}</td>
             <td>{{user_role}}</td>
-            <td>{{last_login}}</td>
-            <td>{{last_login_time}}</td>
+            <td>{{user_last_date}}</td>
+            <td>{{user_last_time}}</td>
           </tr>
         </table>
       </div>
@@ -66,15 +63,39 @@
 
     <div class="adduser">
       <form method="POST" action="">
-        <input style="width:100%;" type="text" name="user_name" placeholder="Username">
-        <input style="width:100%;" type="text" name="user_password" placeholder="Password">
-        <input style="width:100%;" type="text" name="user_email" placeholder="Email">
+        <input style="width:98%;" type="text" name="user_name" placeholder="Username">
+        <input style="width:98%;" type="text" name="user_email" placeholder="Email">
         <h4>Dispatch:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_dispatch"><br>
         <h4>Civilian:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_civilian"><br>
         <h4>Officer:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_officer"><br>
-        <input id="submit" style="width:100%;" type="submit" value="Create User">
+        <input id="submit" style="width:98%;" type="submit" value="Create User">
       </form>
     </div>
+
+    <div class="edit_user">
+      <form style="border-bottom:2px solid gray;margin-bottom:10px;" method="POST" action="">
+        <input style="width:90%;" type="text" name="search_user" placeholder="Search a user"><input id="submit" style="width:8%;padding:3px;height:43px;" type="submit" value="Search">
+      </form>
+      <form methid="POST" action="">
+        <input style="width:98%;" type="text" name="user_name" placeholder="Username">
+        <input style="width:98%;" type="text" name="user_email" placeholder="Email">
+        <h4>Dispatch:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_dispatch"><br>
+        <h4>Civilian:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_civilian"><br>
+        <h4>Officer:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_officer"><br>
+        <input id="submit" style="width:98%;" type="submit" value="Edit User">
+        <input id="remove" style="width:98%;" type="submit" value="Remove User">
+      </form>
+    </div>
+
+  <div class="registration-admin">
+    <p id="mini-header-admin">Registering Users</p>
+    <div id="single-registration">
+      <solid>Username: </solid>{{registering_username}} <solid>Email:</solid> {{registering_email}} <solid>Role:</solid> {{registering_role}}
+      <input id="submit" style="width:10%;" type="submit" value="Approve">
+      <input id="remove" style="width:10%;" type="submit" value="Reject">
+    </div>
+  </div>
+
   </div>
 </body>
 
