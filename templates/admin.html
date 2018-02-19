@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width" />
    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" />
    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
-   <title>Civilian | SourceCAD</title>
+   <title>Admin | SourceCAD</title>
 
   <script>
   function goBack() {
@@ -16,7 +16,7 @@
 
 <header>
   <div class="back">
-    <button onclick="goBack()'" class="button_back" type="button" name="button">Back</button>
+    <button onclick="goBack()" class="button_back" type="button" name="button">Back</button>
   </div>
 </header>
 
@@ -63,18 +63,22 @@
 
     <div class="adduser">
       <form method="POST" action="">
+        {% if session.error is not none %}
+          <caption>{{session.error}}</caption>
+        {% endif %}
         <input style="width:98%;" type="text" name="user_name" placeholder="Username">
         <input style="width:98%;" type="text" name="user_email" placeholder="Email">
         <h4>Dispatch:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_dispatch"><br>
-        <h4>Civilian:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_civilian"><br>
         <h4>Officer:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_officer"><br>
-        <input id="submit" style="width:98%;" type="submit" value="Create User">
+        <h4>Civilian:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_civilian"><br>
+        <input id="submit" style="width:98%;" type="submit" name="submit" value="Create User">
       </form>
     </div>
 
     <div class="edit_user">
       <form style="border-bottom:2px solid gray;margin-bottom:10px;" method="POST" action="">
-        <input style="width:90%;" type="text" name="search_user" placeholder="Search a user"><input id="submit" style="width:8%;padding:3px;height:43px;" type="submit" value="Search">
+        <input style="width:90%;" type="text" name="search_user" placeholder="Search a user">
+        <input id="submit" style="width:8%;padding:3px;height:43px;" type="submit" value="Search" name="Search a user">
       </form>
       <form methid="POST" action="">
         <input style="width:98%;" type="text" name="user_name" placeholder="Username">

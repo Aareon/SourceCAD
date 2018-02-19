@@ -61,7 +61,7 @@
         <input style="width:95%;" type="text" name="create_callout_details" placeholder="Details">
         <h3 style="font-family: 'Helvetica', Arial, sans-serif;margin-bottom:5px;">Current Units</h3><br>
         <select style="width:95%;" id="unit_select" name="division">
-          <option value="current_units">{{online units}}</option>
+          <option value="current_units">{{online_units}}</option>
         </select>
         <br><input id="submit" style="width:95%;height: 45px;" type="submit" value="Create Callout">
       </div>
@@ -112,7 +112,7 @@
     </div>
   </div>
 
-  <script src="../js/dispatch.js"></script>
+  <script src="{{ url_for('static', filename='js/dispatch.js') }}"></script>
 
 </body>
 
