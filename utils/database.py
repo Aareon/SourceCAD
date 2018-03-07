@@ -2,7 +2,6 @@ from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-import bcrypt
 import sqlite3
 
 Base = declarative_base()
