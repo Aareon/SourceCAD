@@ -1004,7 +1004,7 @@ tr:nth-child(odd) {
 
 #cancel {
   width: 98%;
-  background-color: #848484;
+  background-color: #f74747;
   color: white;
   height: 40px;
   text-align: center;
@@ -1045,3 +1045,9 @@ tr:nth-child(odd) {
     margin-top: 0px;
   }
 }
+
+#form-token {
+  width: 48%;
+  margin-left: 40px;
+}
+../
