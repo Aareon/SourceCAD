@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta name="viewport" content="width=device-width" />
-  <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
-  <title>Login | SourceCAD</title>
+   <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" />
+   <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+   <title>Login | SourceCAD</title>
 </head>
+
 <body>
 
   <!--<div class="header_all">
     <h1>SourceCAD</h1>
   </div>-->
-<div class="container">
+  <div class="container">
 
-  <div class="header">
-    <h1 class="loginheader">LOGIN</h1>
-  </div>
-  <div class="meta">
-    <div class="login">
-      <h2>Login<h2>
+    <!--<div class="header">
+      <h1 class="loginheader">LOGIN</h1>
+    </div>-->
+    <div style="margin-top: 145px;" class="meta">
+      <div class="login">
+        <h2>Login<h2>
       <!-- smallprint on the login page -->
       <p id="smallprint">Your credentials are given via discord, if you have not recieved them, message the administration or email help@saroleplay.net</p>
-      <form method="POST" action="">
-        <input type="text" name="units" placeholder="Unit Number: (1K-25)">
-        <input type="password" name="password" placeholder="Password: (*******)">
-        <input id="submit" type="submit" value="Login">
+      <form method="post" action="">
+        <input required style="width: 95%;" type="text" name="units" placeholder="Unit Number: (1K-25)">
+        <input required style="width: 95%;" type="password" name="password" placeholder="Password: (*******)">
+        <input style="width: 98%;" id="submit" type="submit" value="Login">
+        <a href="/registration.html"><button id="cancel" type="button" name="button">Sign up</button></a>
       </form>
     </div>
   </div>
