@@ -21,6 +21,16 @@ def index():
         return redirect(url_for('login'))
 
     email, username, unit_number, rank, is_civilian, is_dispatch, is_police, is_admin = db.get_user_info(session['user_id'])
+    if is_admin:
+        role = 'Admin'
+    elif is_dispatch:
+        role = 'Dispatch'
+    elif is_police:
+        role = 'Police'
+    else:
+        role = 'Civilian'
+
+    db.log_login(username, rank, role)
     session['email'] = email
     session['username'] = username
     session['unit_number'] = unit_number
@@ -225,7 +235,6 @@ def admin():
         return redirect(url_for('index'))
 
     if request.method == 'POST':
-        print(request.form.get('hidden'))
         if request.form.get('submit') == "Create Token":
             with open('access_token.txt', 'r+') as f:
                 content = f.read()

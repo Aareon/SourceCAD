@@ -4,6 +4,7 @@ from sqlalchemy import (Boolean, Column, ForeignKey, Integer, String,
                         create_engine)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from datetime import datetime
 
 Base = declarative_base()
 
@@ -155,6 +156,24 @@ class Activity(Base):
                                                                        self.unit,
                                                                        self.code)
 
+class Login(Base):
+    __tablename__ = 'logins'
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    username = Column(ForeignKey('users.username'), unique=True, nullable=False)
+    rank = Column(ForeignKey('users.rank'), unique=False, nullable=True)
+    role = Column(String(length=16), nullable=False)
+    login_date = Column(String(length=255), nullable=False)
+    login_time = Column(String(length=255), nullable=False)
+
+    def __repr__(self):
+        return '<Login(id={0}, username=\'{1}\', rank=\'{2}\',\
+                login_date=\'{3}\', login_time=\'{4}\',)>'.format(self.id,
+                                                                  self.username,
+                                                                  self.rank,
+                                                                  self.login_date,
+                                                                  self.login_time)
+
 
 class Callout(Base):
     __tablename__ = 'callouts'
@@ -207,7 +226,6 @@ class Database:
             return (id, password)
         except Exception as exc:
             # something happened. Oh well
-            print(exc)
             return (None, None)
 
     def get_user_info(self, id=None):
@@ -275,9 +293,7 @@ class Database:
                               is_civilian=applicant.is_civilian,
                               is_dispatch=applicant.is_dispatch,
                               is_police=applicant.is_police))
-        print('Created user from applicant, deleting application')
         self.session.delete(applicant)
-        print('Deleted application')
         self.session.commit()
     
     def reject_applicant(self, **kwargs):
@@ -293,3 +309,17 @@ class Database:
 
     def get_applicants(self):
         return self.session.query(Application.username, Application.email, Application.is_civilian, Application.is_dispatch, Application.is_police).all()
+
+    def log_login(self, username, rank, role):
+        now = datetime.now()
+        date = now.strftime('%Y-%m-%d')
+        time = now.strftime('%H:%M')
+        try:
+            self.session.add(Login(username=username,
+                                rank=rank,
+                                role=role,
+                                login_date=date,
+                                login_time=time))
+            self.session.commit()
+        except:
+            pass
