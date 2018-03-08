@@ -264,10 +264,26 @@ class Database:
             return True
         else:
             return False
+
+    def approve_applicant(self, **kwargs):
+        email, username = kwargs.get("email"), kwargs.get("username")
+        applicant = self.session.query(Application).filter_by(email=email, username=username).first()
+        self.session.add(User(email=applicant.email,
+                              username=applicant.username,
+                              password=applicant.password,
+                              unit_number=applicant.unit_number,
+                              is_civilian=applicant.is_civilian,
+                              is_dispatch=applicant.is_dispatch,
+                              is_police=applicant.is_police))
+        print('Created user from applicant, deleting application')
+        self.session.delete(applicant)
+        print('Deleted application')
+        self.session.commit()
     
-    def remove_applicant(self, username, email):
-        self.session.delete(Application(email=email,
-                                        username=username))
+    def reject_applicant(self, **kwargs):
+        email, username = kwargs.get("email"), kwargs.get("username")
+        applicant = self.session.query(Application).filter_by(email=email, username=username).delete()
+        self.session.commit()
 
     def get_callouts(self):
         return self.session.query(Callout.id, Callout.reason, Callout.location, Callout.details, Callout.present_units).all()

@@ -194,6 +194,8 @@ def gen_applicants_table():
       <solid>Username: </solid>{applicant_username} <solid>Email:</solid> {applicant_email} <solid>Roles:</solid> {applicant_roles}\n\
         <input name="submit" id="submit" style="width:10%;" type="submit" value="Approve">\n\
         <input name="submit" id="remove" style="width:10%;" type="submit" value="Reject">\n\
+        <input type="hidden" name="username" id="username" value={applicant_username}>\n\
+        <input type="hidden" name="email" id="email" value={applicant_email}>\n\
     </div>'
 
     output = ''
@@ -223,6 +225,7 @@ def admin():
         return redirect(url_for('index'))
 
     if request.method == 'POST':
+        print(request.form.get('hidden'))
         if request.form.get('submit') == "Create Token":
             with open('access_token.txt', 'r+') as f:
                 content = f.read()
@@ -233,12 +236,14 @@ def admin():
         
         # what I was going to do doesn't work
         if request.form.get('submit') == 'Approve':
+            db.approve_applicant(username=request.form.get("username"),
+                                 email=request.form.get("email"))
             return redirect(url_for('admin'))
         
-        # what I was going to do doesn't work
-        if request.form.get('submit') == 'Reject':
+        elif request.form.get('submit') == 'Reject':
+            db.reject_applicant(username=request.form.get("username"),
+                                email=request.form.get("email"))
             return redirect(url_for('admin'))
-
 
     if request.method == 'GET':
         with open('access_token.txt') as f:
