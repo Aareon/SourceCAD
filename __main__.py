@@ -4,6 +4,9 @@ import sys
 from passlib.hash import bcrypt
 from flask import Flask, flash, redirect, render_template, request, session, url_for, Markup
 from utils.database import Database, User
+from string import ascii_uppercase
+from string import digits as string_digits
+from random import choice
 
 # create a Flask application with name "__main__"
 db = Database()
@@ -37,16 +40,13 @@ def login():
     if request.method == 'POST':
         # get unit number/email field
         units = request.form.get('units')
+        print(units)
         if units is None:
             return index()
 
         # figure out if the user used their email or unit code to login
-        use_email = False
-        use_unit_number = False
-        if '@' in units:
-            use_email = True
-        else:
-            use_unit_number = True
+        use_email = True if '@' in units else False
+        use_unit_number = True if '@' not in units else False
 
         # get password, send them back if they didn't put anything
         password = request.form.get('password')
@@ -55,6 +55,7 @@ def login():
 
         # get old password hash and salt for a given user from database
         id, pass_hash = db.get_password(units, use_email=use_email, use_unit_number=use_unit_number)
+        print(id, pass_hash)
 
         # in case a specific user doesn't exist
         if id is None:
@@ -71,6 +72,48 @@ def login():
     # in case of 'GET' request
     else:
         return render_template('login.html')
+
+@app.route('/registration', methods=['POST', 'GET'])
+def registration():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        email = request.form.get('email')
+        unit_number = request.form.get('unit_number')
+        password = request.form.get('password')
+        is_dispatch = bool(request.form.get('is_dispatch', False))
+        is_civilian = bool(request.form.get('is_civilian', False))
+        is_police = bool(request.form.get('is_police', False))
+        if len(password) < 8:
+            return registration()
+
+        password = bcrypt.hash(password)
+
+        access_token = request.form.get('access_token')
+
+        with open('access_token.txt') as f:
+            if access_token != f.read():
+                print('bad token')
+                return registration()
+
+        if '@' not in email:
+            return registration()
+
+        if '.' not in email:
+            return registration()
+
+        if len(username) > 32:
+            return registration()
+        
+        if '-' not in unit_number or len(unit_number) > 5:
+            return registration()
+
+        success = db.create_user(username, email, unit_number, password, is_dispatch, is_civilian, is_police)
+        if success:
+            return login()
+        else:
+            return registration()
+
+    return render_template('registration.html')
 
 def gen_bolo_table():
     bolos = db.get_bolos()
@@ -130,14 +173,19 @@ def police():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
 
-    return redirect(url_for('index'))
+    return render_template('police.html')
 
 @app.route('/civilian')
 def civilian():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
 
-    return redirect(url_for('index'))
+    return render_template('civilian.html')
+
+def gen_access_token():
+    chars = ascii_uppercase + string_digits
+    return ''.join(random.choice(chars) for _ in range(8))
+    
 
 @app.route('/admin')
 def admin():
