@@ -80,7 +80,7 @@
         <input style="width:90%;" type="text" name="search_user" placeholder="Search a user">
         <input id="submit" style="width:8%;padding:3px;height:43px;" type="submit" value="Search" name="Search a user">
       </form>
-      <form methid="POST" action="">
+      <form method="POST" action="">
         <input style="width:98%;" type="text" name="user_name" placeholder="Username">
         <input style="width:98%;" type="text" name="user_email" placeholder="Email">
         <h4>Dispatch:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_dispatch"><br>
@@ -92,20 +92,18 @@
     </div>
 
     <div style="float:left;" id="form-token">
-      <form method="" action="">
+      <form method="POST" action="">
         <input id="submit" style="width:98%;" name="submit" type="submit" value="Create Token">
-        <input style="width:96%;" type="text" name="current_token" value="{{current_token}}" disabled>
+        <input style="width:96%;" type="text" name="current_token" value="{{ current_token }}" readonly="readonly">
       </form>
     </div>
-    
-  <div class="registration-admin">
-    <p id="mini-header-admin">Registering Users</p>
-    <div id="single-registration">
-      <solid>Username: </solid>{{registering_username}} <solid>Email:</solid> {{registering_email}} <solid>Role:</solid> {{registering_role}}
-      <input id="submit" style="width:10%;" type="submit" value="Approve">
-      <input id="remove" style="width:10%;" type="submit" value="Reject">
+  
+  <form method="POST" action="">
+    <div class="registration-admin">
+      <p id="mini-header-admin">User Applications</p>
+        {{ applications_table }}
     </div>
-  </div>
+  </form>
 
   </div>
 </body>

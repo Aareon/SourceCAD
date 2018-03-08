@@ -40,7 +40,6 @@ def login():
     if request.method == 'POST':
         # get unit number/email field
         units = request.form.get('units')
-        print(units)
         if units is None:
             return index()
 
@@ -55,7 +54,6 @@ def login():
 
         # get old password hash and salt for a given user from database
         id, pass_hash = db.get_password(units, use_email=use_email, use_unit_number=use_unit_number)
-        print(id, pass_hash)
 
         # in case a specific user doesn't exist
         if id is None:
@@ -107,7 +105,7 @@ def registration():
         if '-' not in unit_number or len(unit_number) > 5:
             return registration()
 
-        success = db.create_user(username, email, unit_number, password, is_dispatch, is_civilian, is_police)
+        success = db.create_applicant(username, email, unit_number, password, is_dispatch, is_civilian, is_police)
         if success:
             return login()
         else:
@@ -184,10 +182,39 @@ def civilian():
 
 def gen_access_token():
     chars = ascii_uppercase + string_digits
-    return ''.join(random.choice(chars) for _ in range(8))
+    return ''.join(choice(chars) for _ in range(8))
     
+def gen_applicants_table():
+    applicants = db.get_applicants()
 
-@app.route('/admin')
+    if len(applicants) == 0:
+        return Markup('<div id="single-registration"><solid>No open applications</solid></div>')
+
+    template = '<div id="single-registration">\n\
+      <solid>Username: </solid>{applicant_username} <solid>Email:</solid> {applicant_email} <solid>Roles:</solid> {applicant_roles}\n\
+        <input id="submit" style="width:10%;" type="submit" value="Approve">\n\
+        <input id="remove" style="width:10%;" type="submit" value="Reject">\n\
+    </div>'
+
+    output = ''
+    for applicant in applicants:
+        roles = ''
+        if applicant[3]:
+            roles += 'dispatch, '
+        
+        if applicant[2]:
+            roles += 'civilian, '
+
+        if applicant[4]:
+            roles += 'police, '
+        
+        roles = roles[:-2]
+        output += template.format(applicant_username=applicant[0],
+                                  applicant_email=applicant[1],
+                                  applicant_roles=roles)
+    return Markup(output)
+
+@app.route('/admin', methods=['POST', 'GET'])
 def admin():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
@@ -195,7 +222,30 @@ def admin():
     if not session.get('is_admin'):
         return redirect(url_for('index'))
 
-    return render_template('admin.html')
+    if request.method == 'POST':
+        print(request.form)
+        if request.form.get('submit') == "Create Token":
+            with open('access_token.txt', 'r+') as f:
+                content = f.read()
+                f.seek(0)
+                f.truncate()
+                f.write(gen_access_token())
+                return redirect(url_for('admin'))
+        
+        # what I was going to do doesn't work
+        if request.form.get('submit') == 'Approve':
+            return redirect(url_for('admin'))
+        
+        # what I was going to do doesn't work
+        if request.form.get('submit') == 'Reject':
+            return redirect(url_for('admin'))
+
+        
+
+    if request.method == 'GET':
+        with open('access_token.txt') as f:
+            current_token = f.read()
+        return render_template('admin.html', current_token=current_token, applications_table=gen_applicants_table())
 
 if __name__ == '__main__':
     app.config['SECRET_KEY'] = urandom(24)

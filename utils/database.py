@@ -1,10 +1,12 @@
-from sqlalchemy import create_engine
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
 import sqlite3
 
+from sqlalchemy import (Boolean, Column, ForeignKey, Integer, String,
+                        create_engine)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
 Base = declarative_base()
+
 
 class User(Base):
     __tablename__ = 'users'
@@ -12,8 +14,9 @@ class User(Base):
     id = Column(Integer, primary_key=True, nullable=False)
     email = Column(String(length=255), unique=True, nullable=True)
     username = Column(String(length=32), unique=True, nullable=True)
-    pass_hash = Column(String(length=255), unique=True, nullable=False)
-    unit_number = Column(String(length=4), unique=True, nullable=True, default='')
+    password = Column(String(length=255), unique=True, nullable=False)
+    unit_number = Column(String(length=4), unique=True,
+                         nullable=True, default='')
     rank = Column(String(length=54), unique=False, nullable=True, default='')
     is_civilian = Column(Integer, unique=False, default=0)
     is_dispatch = Column(Integer, unique=False, default=0)
@@ -21,19 +24,47 @@ class User(Base):
     is_admin = Column(Integer, unique=False, default=0)
 
     def __repr__(self):
-        return '<User(id={0}, email=\'{1}\', username=\'{2}\', pass_hash=\'{3}\', \
+        return '<User(id={0}, email=\'{1}\', username=\'{2}\', password=\'{3}\', \
         is_civilian={4}, is_dispatch{5}, is_police={6})>'.format(self.id,
                                                                  self.email,
                                                                  self.username,
-                                                                 self.pass_hash,
+                                                                 self.password,
                                                                  self.is_civilian,
                                                                  self.is_dispatch,
                                                                  self.is_police)
 
+
+class Application(Base):
+    __tablename__ = 'applications'
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    email = Column(String(length=255), unique=True, nullable=True)
+    username = Column(String(length=32), unique=True, nullable=True)
+    password = Column(String(length=255), unique=True, nullable=False)
+    unit_number = Column(String(length=4), unique=True,
+                         nullable=True, default='')
+    rank = Column(String(length=54), unique=False, nullable=True, default='')
+    is_civilian = Column(Integer, unique=False, default=0)
+    is_dispatch = Column(Integer, unique=False, default=0)
+    is_police = Column(Integer, unique=False, default=0)
+    is_admin = Column(Integer, unique=False, default=0)
+
+    def __repr__(self):
+        return '<Application(id={0}, email=\'{1}\', username=\'{2}\', password=\'{3}\', \
+        is_civilian={4}, is_dispatch{5}, is_police={6})>'.format(self.id,
+                                                                 self.email,
+                                                                 self.username,
+                                                                 self.password,
+                                                                 self.is_civilian,
+                                                                 self.is_dispatch,
+                                                                 self.is_police)
+
+
 class Character(Base):
     __tablename__ = 'characters'
 
-    id = Column(Integer, ForeignKey('users.id'), primary_key=True, nullable=False)
+    id = Column(Integer, ForeignKey('users.id'),
+                primary_key=True, nullable=False)
     name = Column(String(length=255), nullable=True)
     age = Column(Integer, unique=False, nullable=False)
     address = Column(String(length=255), default='Homeless')
@@ -50,10 +81,12 @@ class Character(Base):
                                                                         self.ccp_license,
                                                                         self.ocp_license)
 
+
 class Registration(Base):
     __tablename__ = 'registrations'
 
-    id = Column(Integer, ForeignKey('users.id'), primary_key=True, nullable=False)
+    id = Column(Integer, ForeignKey('users.id'),
+                primary_key=True, nullable=False)
     owner = Column(ForeignKey('characters.id'))
     make = Column(String(32), nullable=False)
     model = Column(String(32), nullable=False)
@@ -68,6 +101,7 @@ class Registration(Base):
                                                     self.model,
                                                     self.tag_number,
                                                     self.insurance)
+
 
 class Bolo(Base):
     __tablename__ = 'bolos'
@@ -87,6 +121,7 @@ class Bolo(Base):
                                                      self.description,
                                                      self.notes)
 
+
 class Ticket(Base):
     __tablename__ = 'tickets'
 
@@ -94,7 +129,8 @@ class Ticket(Base):
     author = Column(ForeignKey('users.id'), nullable=False)
     offender = Column(ForeignKey('users.id'), nullable=False)
     penal_code = Column(String(length=16), nullable=False)
-    punishment = Column(String(length=32), nullable=True) # nullable in case its something like a fix-it ticket
+    # nullable in case its something like a fix-it ticket
+    punishment = Column(String(length=32), nullable=True)
     notes = Column(String(length=140), nullable=True)
 
     def __repr__(self):
@@ -105,6 +141,7 @@ class Ticket(Base):
                                                                         self.penal_code,
                                                                         self.punishment,
                                                                         self.notes)
+
 
 class Activity(Base):
     __tablename__ = 'activities'
@@ -117,6 +154,7 @@ class Activity(Base):
         return '<Activity(id={0}, unit=\'{1}\', code=\'{2}\')>'.format(self.id,
                                                                        self.unit,
                                                                        self.code)
+
 
 class Callout(Base):
     __tablename__ = 'callouts'
@@ -135,9 +173,11 @@ class Callout(Base):
                                         self.location,
                                         self.present_units)
 
+
 class Database:
     def __init__(self):
-        self.engine = create_engine('sqlite:///sourcecad.db?check_same_thread=False', echo=False)
+        self.engine = create_engine(
+            'sqlite:///sourcecad.db?check_same_thread=False', echo=False)
         self.Session = sessionmaker(bind=self.engine)
         self.session = self.Session()
         Base.metadata.create_all(self.engine)
@@ -149,21 +189,25 @@ class Database:
 
         # protect against bots? trying to do more than one thing at once, kind of
         if use_email and use_unit_number:
-            raise SyntaxError('Too many things to select. Choose email or unit_number, not both.')
+            raise SyntaxError(
+                'Too many things to select. Choose email or unit_number, not both.')
 
         try:
             # get user data using email
             if use_email:
-                id, pass_hash = self.session.query(User.id, User.pass_hash).filter_by(email=item).all()[0]
+                id, password = self.session.query(
+                    User.id, User.password).filter_by(email=item).all()[0]
 
             # get user data using unit number
             if use_unit_number:
-                id, pass_hash = self.session.query(User.id, User.pass_hash).filter_by(unit_number=item).all()[0]
+                id, password = self.session.query(
+                    User.id, User.password).filter_by(unit_number=item).all()[0]
 
             # return the id as well as the encoded password hash and salt ready for hashing and verifying
-            return (id, pass_hash)
-        except:
+            return (id, password)
+        except Exception as exc:
             # something happened. Oh well
+            print(exc)
             return (None, None)
 
     def get_user_info(self, id=None):
@@ -183,8 +227,53 @@ class Database:
         except:
             return (None, None, None, None, None, None, None, None, None)
 
+    def check_user_exists(self, username, email, unit_number):
+        if email is None:
+            q = self.session.query(User.username, User.unit_number).filter_by(
+                username=username, unit_number=unit_number).all()
+        else:
+            q = self.session.query(User.username, User.unit_number, User.email).filter_by(
+                username=username, unit_number=unit_number, email=email).all()
+        if len(q) == 0:
+            return False
+        else:
+            return True
+
+    def create_applicant(self, username, email, unit_number, password, is_dispatch, is_civilian, is_police):
+        """
+        id: Integer, primary key
+        email: String, unique
+        username: String, unique
+        password: String
+        unit_number: String, unique
+        rank: String
+        is_civilian: Integer
+        is_dispatch: Integer
+        is_police: Integer
+        is_admin: Integer
+        """
+        if not self.check_user_exists(username, email, unit_number):
+            self.session.add(Application(email=email,
+                                         username=username,
+                                         password=password,
+                                         unit_number=unit_number,
+                                         is_civilian=is_civilian,
+                                         is_dispatch=is_dispatch,
+                                         is_police=is_police))
+            self.session.commit()
+            return True
+        else:
+            return False
+    
+    def remove_applicant(self, username, email):
+        self.session.delete(Application(email=email,
+                                        username=username))
+
     def get_callouts(self):
         return self.session.query(Callout.id, Callout.reason, Callout.location, Callout.details, Callout.present_units).all()
 
     def get_bolos(self):
         return self.session.query(Bolo.id, Bolo.reason, Bolo.location, Bolo.description, Bolo.notes).all()
+
+    def get_applicants(self):
+        return self.session.query(Application.username, Application.email, Application.is_civilian, Application.is_dispatch, Application.is_police).all()
