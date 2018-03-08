@@ -192,8 +192,8 @@ def gen_applicants_table():
 
     template = '<div id="single-registration">\n\
       <solid>Username: </solid>{applicant_username} <solid>Email:</solid> {applicant_email} <solid>Roles:</solid> {applicant_roles}\n\
-        <input id="submit" style="width:10%;" type="submit" value="Approve">\n\
-        <input id="remove" style="width:10%;" type="submit" value="Reject">\n\
+        <input name="submit" id="submit" style="width:10%;" type="submit" value="Approve">\n\
+        <input name="submit" id="remove" style="width:10%;" type="submit" value="Reject">\n\
     </div>'
 
     output = ''
@@ -223,7 +223,6 @@ def admin():
         return redirect(url_for('index'))
 
     if request.method == 'POST':
-        print(request.form)
         if request.form.get('submit') == "Create Token":
             with open('access_token.txt', 'r+') as f:
                 content = f.read()
@@ -240,7 +239,6 @@ def admin():
         if request.form.get('submit') == 'Reject':
             return redirect(url_for('admin'))
 
-        
 
     if request.method == 'GET':
         with open('access_token.txt') as f:
