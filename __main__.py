@@ -202,8 +202,8 @@ def gen_applicants_table():
 
     template = '<div id="single-registration">\n\
       <solid>Username: </solid>{applicant_username} <solid>Email:</solid> {applicant_email} <solid>Roles:</solid> {applicant_roles}\n\
-        <input name="submit" id="submit" style="width:10%;" type="submit" value="Approve">\n\
-        <input name="submit" id="remove" style="width:10%;" type="submit" value="Reject">\n\
+        <input name="submit" class="submit" id="modalBtn" style="width:10%;" type="submit" value="Approve">\n\
+        <input name="submit" class="remove" id="modalBtn_rej" style="width:10%;" type="submit" value="Reject">\n\
         <input type="hidden" name="username" id="username" value={applicant_username}>\n\
         <input type="hidden" name="email" id="email" value={applicant_email}>\n\
     </div>'
