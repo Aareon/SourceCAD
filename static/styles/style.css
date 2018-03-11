@@ -180,6 +180,31 @@ input#remove {
   margin-top: 0px;
 }
 
+input.submit {
+  width: 90%;
+  background-color: #4CAF50;
+  height: 40px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+input.remove {
+  width: 90%;
+  background-color: #FF3D13;
+  height: 40px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  margin-top: 0px;
+}
+
 .nameheader {
   margin-top: 150px;
   width: auto;
@@ -1050,4 +1075,27 @@ tr:nth-child(odd) {
   width: 48%;
   margin-left: 40px;
 }
-../
+
+.modal_rej {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.closeBtn_rej {
+  color: #bbb;
+  font-size: 30px;
+  float: right;
+}
+
+.closeBtn_rej:hover, #closeBtn_rej:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
