@@ -24,25 +24,27 @@
   <div class="admin_container">
 
     <div class="tables">
-      <div class="user_table">
-        <table style="float:left;margin-right:40px;">
+      <div id="logins_table_scroll">
+        <table class="user_table">
           <caption>Users</caption>
           <tr>
             <th>User</th>
             <th>Role</th>
             <th>User Snowflake</th>
+            <th>Edit</th>
           </tr>
           <!-- in onclick="%edit%" change the hash to a edit portion -->
           <tr onclick="#">
             <td>{{user}}</td>
             <td>{{user_role}}</td>
             <td>{{user_snowflake}}</td>
+            <td><button id="modalBtn-edit" class="edit_btn_admin" type="button" name="button">Edit</button></td>
           </tr>
         </table>
       </div>
 
-      <div class="activity_table">
-        <table style="margin-right:20px;">
+      <div id="users_table_scroll">
+        <table class="logins_table">
           <caption>User Activity</caption>
           <tr>
             <th>User</th>
@@ -51,15 +53,11 @@
             <th>Last Login Time</th>
           </tr>
           <!-- in onclick="%edit%" change the hash to a edit portion -->
-          <tr onclick="#">
-            <td>{{user}} {{user_number}}</td>
-            <td>{{user_role}}</td>
-            <td>{{user_last_date}}</td>
-            <td>{{user_last_time}}</td>
-          </tr>
+          <!--{{ logins_table }}-->
+          {{ logins_table }}
         </table>
       </div>
-    </div>
+      </div>
 
     <div class="adduser">
       <form method="POST" action="">
