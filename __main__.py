@@ -30,7 +30,7 @@ def index():
     else:
         role = 'Civilian'
 
-    db.log_login(username, rank, role)
+    db.add_login(username, rank, role)
     session['email'] = email
     session['username'] = username
     session['unit_number'] = unit_number
@@ -226,6 +226,24 @@ def gen_applicants_table():
                                   applicant_roles=roles)
     return Markup(output)
 
+def gen_logins_table():
+    logins = db.get_logins()
+
+    template = '<tr onclick="#">\
+            <td>{username}</td>\
+            <td>{rank}</td>\
+            <td>{login_date}</td>\
+            <td>{login_time}</td>\
+          </tr>'
+
+    output = ''
+    for login in logins:
+        output += template.format(username=login[0],
+                                  rank=login[1],
+                                  login_date=login[2],
+                                  login_time=login[3])
+    return Markup(output)
+
 @app.route('/admin', methods=['POST', 'GET'])
 def admin():
     if not session.get('logged_in'):
@@ -257,7 +275,10 @@ def admin():
     if request.method == 'GET':
         with open('access_token.txt') as f:
             current_token = f.read()
-        return render_template('admin.html', current_token=current_token, applications_table=gen_applicants_table())
+        return render_template('admin.html',
+                               current_token=current_token,
+                               applications_table=gen_applicants_table(),
+                               logins_table=gen_logins_table())
 
 if __name__ == '__main__':
     app.config['SECRET_KEY'] = urandom(24)

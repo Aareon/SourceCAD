@@ -160,7 +160,7 @@ class Login(Base):
     __tablename__ = 'logins'
 
     id = Column(Integer, primary_key=True, nullable=False)
-    username = Column(ForeignKey('users.username'), unique=True, nullable=False)
+    username = Column(String(length=32), nullable=False)
     rank = Column(ForeignKey('users.rank'), unique=False, nullable=True)
     role = Column(String(length=16), nullable=False)
     login_date = Column(String(length=255), nullable=False)
@@ -310,16 +310,19 @@ class Database:
     def get_applicants(self):
         return self.session.query(Application.username, Application.email, Application.is_civilian, Application.is_dispatch, Application.is_police).all()
 
-    def log_login(self, username, rank, role):
+    def add_login(self, username, rank, role):
         now = datetime.now()
         date = now.strftime('%Y-%m-%d')
         time = now.strftime('%H:%M')
         try:
             self.session.add(Login(username=username,
-                                rank=rank,
-                                role=role,
-                                login_date=date,
-                                login_time=time))
+                                   rank=rank,
+                                   role=role,
+                                   login_date=date,
+                                   login_time=time))
             self.session.commit()
         except:
             pass
+
+    def get_logins(self):
+        return self.session.query(Login.username, Login.rank, Login.login_date, Login.login_time).limit(5).all()
