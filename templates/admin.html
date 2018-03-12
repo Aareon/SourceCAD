@@ -16,7 +16,7 @@
 
 <header>
   <div class="back">
-    <button onclick="goBack()" class="button_back" type="button" name="button">Back</button>
+    <button onclick="goBack()'" class="button_back" type="button" name="button">Back</button>
   </div>
 </header>
 
@@ -61,49 +61,48 @@
 
     <div class="adduser">
       <form method="POST" action="">
-        {% if session.error is not none %}
-          <caption>{{session.error}}</caption>
-        {% endif %}
         <input style="width:98%;" type="text" name="user_name" placeholder="Username">
         <input style="width:98%;" type="text" name="user_email" placeholder="Email">
         <h4>Dispatch:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_dispatch"><br>
-        <h4>Officer:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_officer"><br>
         <h4>Civilian:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_civilian"><br>
-        <input id="submit" style="width:98%;" type="submit" name="submit" value="Create User">
+        <h4>Officer:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_officer"><br>
+        <input id="submit" style="width:98%;" name="submit" type="submit" value="Create User">
       </form>
     </div>
 
     <div class="edit_user">
       <form style="border-bottom:2px solid gray;margin-bottom:10px;" method="POST" action="">
         <input style="width:90%;" type="text" name="search_user" placeholder="Search a user">
-        <input id="submit" style="width:8%;padding:3px;height:43px;" type="submit" value="Search" name="Search a user">
+        <input id="submit" style="width:8%;padding:3px;height:43px;" name="submit" type="submit" value="Search">
       </form>
-      <form method="POST" action="">
+      <form methid="POST" action="">
         <input style="width:98%;" type="text" name="user_name" placeholder="Username">
         <input style="width:98%;" type="text" name="user_email" placeholder="Email">
         <h4>Dispatch:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_dispatch"><br>
         <h4>Civilian:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_civilian"><br>
         <h4>Officer:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_officer"><br>
-        <input id="submit" style="width:98%;" type="submit" value="Edit User">
-        <input id="remove" style="width:98%;" type="submit" value="Remove User">
+        <input id="submit" style="width:98%;" name="submit" type="submit" value="Edit User">
+        <input id="remove" style="width:98%;" name="submit" type="submit" value="Remove User">
       </form>
     </div>
 
     <div style="float:left;" id="form-token">
-      <form method="POST" action="">
-        <input id="submit" style="width:98%;" name="submit" type="submit" value="Generate New Token">
-        <input style="width:96%;" type="text" name="current_token" value="{{ current_token }}" readonly="readonly">
+      <form method="" action="">
+        <input id="submit" style="width:98%;" name="submit" type="submit" value="Create Token">
+        <input style="width:96%;" type="text" name="current_token" value="{{current_token}}" disabled>
       </form>
     </div>
-  
-  <form method="POST" action="">
-    <div class="registration-admin">
-      <p id="mini-header-admin">User Applications</p>
-        {{ applications_table }}
-    </div>
-  </form>
 
-    <div class="modal" id="simpleModal">
+  <div class="registration-admin">
+    <p id="mini-header-admin">Registering Users</p>
+    <div id="single-registration">
+      <solid>Username: </solid>{{registering_username}} <solid>Email:</solid> {{registering_email}} <solid>Role:</solid> {{registering_role}}
+      <input class="submit" id="modalBtn" style="width:10%;" type="submit" name="submit" value="Approve">
+      <input class="remove" id="modalBtn_rej" style="width:10%;" type="submit" name="submit" value="Reject">
+    </div>
+  </div>
+</div>
+<div class="modal" id="simpleModal">
   <div class="modal-content">
     <span class="closeBtn">&times;</span>
     <div style="background-color: rgb(0,255,0,0.6);" id="approval-modal">
@@ -122,7 +121,6 @@
 </div>
 
 <script src="js/admin.js"></script>
-    
- </div>
+
 </body>
 </html>
