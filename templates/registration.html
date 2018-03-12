@@ -26,7 +26,7 @@
           <h4 style="margin-top:5px;font-size:15px;">Civilian:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_civilian"><br>
           <h4 style="margin-top:5px;font-size:15px;">Officer:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_police"><br>
         <input style="width:98%" id="submit" type="submit" value="Register">
-        <button onclick="goBack()'" id="cancel" type="button" name="button">Cancel</button>
+        <button onclick="window.location.href='{{ url_for('templates', filename='login.html') }}'" id="cancel" type="button" name="button">Already signed up</button>
       </form>
     </div>
   </div>
