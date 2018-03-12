@@ -325,4 +325,4 @@ class Database:
             pass
 
     def get_logins(self):
-        return self.session.query(Login.username, Login.rank, Login.login_date, Login.login_time).limit(5).all()
+        return self.session.query(Login.username, Login.rank, Login.login_date, Login.login_time).order_by(-Login.id).limit(5).all()
