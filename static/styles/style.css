@@ -658,13 +658,45 @@ h4 {
 }
 
 /* admin.html */
+.edit_btn_admin {
+  width: 100%;
+  padding: 8px;
+  background-color: #4CAF50;
+  border: none;
+  font-size: 14px;
+  color: white;
+}
 
-table {
+.tables {
+  width: 100%;
+}
+
+.user_table {
   font-family: 'Helvetica', Arial, sans-serif;
   border-collapse: collapse;
-  width: 47%;
-  margin-left: 40px;
-  table-layout: fixed;
+  width: 100%;
+  /*table-layout: fixed;*/
+  position: relative;
+}
+
+.logins_table {
+  font-family: 'Helvetica', Arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  /* table-layout: fixed;*/
+  position: relative;
+}
+
+#logins_table_scroll {
+  max-height: 350px;
+  overflow: auto;
+  margin: 40px;
+}
+
+#users_table_scroll {
+  max-height: 350px;
+  overflow: auto;
+  margin: 40px;
 }
 
 td, th {
@@ -683,7 +715,6 @@ tr:nth-child(odd) {
 
 .tables {
   margin-top: 150px;
-  width: 100%;
 }
 
 .adduser {
