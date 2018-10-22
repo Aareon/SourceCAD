@@ -16,6 +16,20 @@ Clone this repository after installing [Git](https://git-scm.com):
 $ git clone https://github.com/Aareon/SourceCAD
 ```
 
+### Optional: Create a virtual environment for Python
+To maintain a little sanity between dependencies, it's recommended that you use a "virtual environment" for your Python environment.
+This can be created and activated like so;
+```sh
+python3 -m venv [your_virtual_environment_name]
+```
+Replace the placeholder with whatever name you desire. I'll be using `venv` for the name as that name is pretty standard.
+
+To activate the environment for use in your terminal, simply type the following;
+```sh
+[your_virtual_environments_path]\\Scripts\\activate
+```
+Be sure to replace the placeholder with the path to your virtual environments folder. This environment will allow you to use the `python` and `pip` commands for strictly that environment. This environment will remain active so long as that terminal is open, or until you deactivate it.
+
 Install the dependencies after cloning:
 #### Unix
 ```sh
