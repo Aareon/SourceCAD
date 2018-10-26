@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta name="viewport" content="width=device-width" />
   <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" />
@@ -12,24 +13,38 @@
     }
   </script>
 </head>
+
 <body>
-<div class="registratoin-container">
-  <div class="registration-meta">
-    <div style="margin-top: 150px;" class="registration">
-      <form method="post" action="">
-        <input name="username" style="width:98%" type="text" required placeholder="Username">
-        <input name="email" style="width:98%" type="email" required placeholder="Email">
-        <input name="unit_number" style="width:98%" type="text" required placeholder="Unit Number">
-        <input name="password" style="width:98%" type="password" required placeholder="Password">
-        <input name="access_token" style="width:98%" type="text" required placeholder="Access Token">
-          <h4 style="margin-top:5px;font-size:15px;">Dispatch:</h4> <input style="margin-top:0px;margin-bottom:0px;" id="check" type="checkbox" name="is_dispatch"><br>
-          <h4 style="margin-top:5px;font-size:15px;">Civilian:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_civilian"><br>
-          <h4 style="margin-top:5px;font-size:15px;">Officer:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_police"><br>
-        <input style="width:98%" id="submit" type="submit" value="Register">
-        <button onclick="goBack()'" id="cancel" type="button" name="button">Cancel</button>
-      </form>
+  <div class="registratoin-container">
+    <div class="registration-meta">
+      <div style="margin-top: 150px;" class="registration">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="{{ category }}">
+          <p>{{ message }}</p>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <form method="post" action="">
+          <input name="username" style="width:98%" type="text" required placeholder="Username">
+          <input name="email" style="width:98%" type="email" required placeholder="Email">
+          <input name="unit_number" style="width:98%" type="text" required placeholder="Unit Number">
+          <input name="password" style="width:98%" type="password" required placeholder="Password">
+          <input name="access_token" style="width:98%" type="text" required placeholder="Access Token">
+          <h4 style="margin-top:5px;font-size:15px;">Dispatch:</h4> <input style="margin-top:0px;margin-bottom:0px;" id="check"
+            type="checkbox" name="is_dispatch"><br>
+          <h4 style="margin-top:5px;font-size:15px;">Civilian:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check"
+            type="checkbox" name="is_civilian"><br>
+          <h4 style="margin-top:5px;font-size:15px;">Officer:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check"
+            type="checkbox" name="is_police"><br>
+          <input style="width:98%" id="submit" type="submit" value="Register">
+          <button onclick="goBack()" id="cancel" type="button" name="button">Cancel</button>
+        </form>
+      </div>
     </div>
   </div>
-</div>
 </body>
+
 </html>
