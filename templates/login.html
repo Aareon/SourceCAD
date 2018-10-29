@@ -13,13 +13,13 @@
     <div style="margin-top: 145px;" class="meta">
       <div class="login">
         {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        {% for category, message in messages %}
-        <div class="{{ category }}">
-          <p>{{ message }}</p>
-        </div>
-        {% endfor %}
-        {% endif %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="{{ category }}">
+                <p>{{ message }}</p>
+              </div>
+            {% endfor %}
+          {% endif %}
         {% endwith %}
         <h2>Login<h2>
             <!-- smallprint on the login page -->
