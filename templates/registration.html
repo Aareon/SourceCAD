@@ -19,13 +19,13 @@
     <div class="registration-meta">
       <div style="margin-top: 150px;" class="registration">
         {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        {% for category, message in messages %}
-        <div class="{{ category }}">
-          <p>{{ message }}</p>
-        </div>
-        {% endfor %}
-        {% endif %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="{{ category }}">
+                <p>{{ message }}</p>
+              </div>
+            {% endfor %}
+          {% endif %}
         {% endwith %}
         <form method="post" action="">
           <input name="username" style="width:98%" type="text" required placeholder="Username">
