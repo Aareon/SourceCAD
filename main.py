@@ -63,7 +63,7 @@ def login():
         # get unit number/email field
         units = request.form.get("units")
         if units is None:
-            flash(u'Please enter an email/unit number.', 'error')
+            flash('Please enter an email/unit number.', 'error')
             return render_template('login.html')
 
         # figure out if the user used their email or unit code to login
@@ -73,7 +73,7 @@ def login():
         # get password, send them back if they didn't put anything
         password = request.form.get("password")
         if password is None:
-            flash(u'Please enter a password', 'error')
+            flash('Please enter a password', 'error')
             return render_template('login.html')
 
         # get old password hash and salt for a given user from database
@@ -83,7 +83,7 @@ def login():
 
         # in case a specific user doesn't exist
         if id is None:
-            flash(u'That user does not exist', 'error')
+            flash('That user does not exist', 'error')
             return render_template('login.html')
 
         # verify password matches previous hash
@@ -92,7 +92,7 @@ def login():
             session["logged_in"] = True
 
         # complete login... or not.
-        flash(u'Something went wrong', 'error')
+        flash('Something went wrong', 'error')
         return redirect(url_for("index"))
 
     # in case of 'GET' request
@@ -111,7 +111,7 @@ def registration():
         is_civilian = bool(request.form.get("is_civilian", False))
         is_police = bool(request.form.get("is_police", False))
         if len(password) < 8:
-            flash(u'Password is required to be longer than (8) characters', 'error')
+            flash('Password is required to be longer than (8) characters', 'error')
             return render_template("registration.html")
 
         password = bcrypt.hash(password)
@@ -121,30 +121,30 @@ def registration():
         with open("access_token.txt") as f:
             if access_token != f.read():
                 print("bad token")
-                flash(u'Incorrect access token', 'error')
+                flash('Incorrect access token', 'error')
                 return render_template("registration.html")
 
         if "@" not in email:
-            flash(u'Incorrect email', 'error')
+            flash('Incorrect email', 'error')
             return render_template("registration.html")
 
         if "." not in email:
-            flash(u'Incorrect email', 'error')
+            flash('Incorrect email', 'error')
             return render_template("registration.html")
 
         if len(username) > 32:
-            flash(u'Incorrect username', 'error')
+            flash('Incorrect username', 'error')
             return render_template("registration.html")
 
         if "-" not in unit_number or len(unit_number) > 5:
-            flash(u'Incorrect unit-number', 'error')
+            flash('Incorrect unit-number', 'error')
             return render_template("registration.html")
 
         success = db.create_applicant(
             username, email, unit_number, password, is_dispatch, is_civilian, is_police
         )
         if success:
-            flash(u'Your account has been registered please wait for a member of the administration to approve your account.', 'success')
+            flash('Your account has been registered please wait for a member of the administration to approve your account.', 'success')
             return render_template("login.html")
         else:
             return registration()
