@@ -63,7 +63,7 @@ def login():
         # get unit number/email field
         units = request.form.get("units")
         if units is None:
-            flash('Please enter an email/unit number.', 'error')
+            flash('Please enter an email/unit number', 'error')
             return render_template('login.html')
 
         # figure out if the user used their email or unit code to login
