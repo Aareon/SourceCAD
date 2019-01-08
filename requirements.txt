@@ -1,4 +1,4 @@
-Flask==0.12.2
-passlib==1.7.1
-SQLAlchemy==1.2.2
-bcrypt==3.1.4
+Flask
+passlib
+SQLAlchemy
+bcrypt
