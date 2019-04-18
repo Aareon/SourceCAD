@@ -1,7 +1,8 @@
-import logging
 import os
-import sys
-from passlib.hash import bcrypt
+from random import choice
+from string import ascii_uppercase
+from string import digits as string_digits
+
 from flask import (
     Flask,
     flash,
@@ -12,10 +13,9 @@ from flask import (
     url_for,
     Markup,
 )
-from utils.database import Database, User
-from string import ascii_uppercase
-from string import digits as string_digits
-from random import choice
+from passlib.hash import bcrypt
+
+from utils.database import Database
 
 # create a Flask application with name "__main__"
 db = Database()
@@ -144,8 +144,9 @@ def registration():
             username, email, unit_number, password, is_dispatch, is_civilian, is_police
         )
         if success:
-            flash('Your account has been registered please wait for a member of the administration to approve your account.', 'success')
-            return render_template("login.html")
+            flash('''Your account has been registered please wait for a member of the 
+                administration to approve your account.',success''')
+            return redirect(url_for("login"))
         else:
             return registration()
 
@@ -232,7 +233,7 @@ def gen_access_token():
     return "".join(choice(chars) for _ in range(12))
 
 
-def gen_applicants_table():
+'''def gen_applicants_table():
     applicants = db.get_applicants()
 
     if len(applicants) == 0:
@@ -241,11 +242,11 @@ def gen_applicants_table():
         )
 
     template = '<div id="single-registration">\n\
-      <solid>Username: </solid>{applicant_username} <solid>Email:</solid> {applicant_email} <solid>Roles:</solid> {applicant_roles}\n\
+      <solid>Username: </solid>{applicant_username} <solid>Email:</solid> {applicant_email} <solid>Roles:</solid> {{applicant_roles}}\n\
         <input name="submit" id="submit" style="width:10%;" type="submit" value="Approve">\n\
         <input name="submit" id="remove" style="width:10%;" type="submit" value="Reject">\n\
-        <input type="hidden" name="username" id="username" value={applicant_username}>\n\
-        <input type="hidden" name="email" id="email" value={applicant_email}>\n\
+        <input type="hidden" name="username" id="username" value={{applicant_username}}>\n\
+        <input type="hidden" name="email" id="email" value={{applicant_email}}>\n\
     </div>'
 
     output = ""
@@ -266,7 +267,7 @@ def gen_applicants_table():
             applicant_email=applicant[1],
             applicant_roles=roles,
         )
-    return Markup(output)
+    return Markup(output)'''
 
 
 def gen_logins_table():
@@ -289,6 +290,7 @@ def gen_logins_table():
 
 @app.route("/admin", methods=["POST", "GET"])
 def admin():
+    applicants = db.get_applicants()
     if not session.get("logged_in"):
         return redirect(url_for("login"))
 
@@ -306,13 +308,13 @@ def admin():
                 return redirect(url_for("admin"))
 
         # what I was going to do doesn't work
-        if request.form.get("submit") == "Approve":
+        if request.form.get("Approve"):
             db.approve_applicant(
-                username=request.form.get("username"), email=request.form.get("email")
+                username=request.form["username"], email=request.form["email"]
             )
             return redirect(url_for("admin"))
 
-        elif request.form.get("submit") == "Reject":
+        elif request.form.get("Reject"):
             db.reject_applicant(
                 username=request.form.get("username"), email=request.form.get("email")
             )
@@ -324,7 +326,7 @@ def admin():
         return render_template(
             "admin.html",
             current_token=current_token,
-            applications_table=gen_applicants_table(),
+            applicants=applicants,
             logins_table=gen_logins_table(),
         )
 

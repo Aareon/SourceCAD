@@ -3,6 +3,16 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# pipenv
+Pipfile
+Pipfile.lock
+
+# database
+*.db
+
+# access_token
+access_token.txt
+
 # C extensions
 *.so
 

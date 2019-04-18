@@ -63,9 +63,9 @@
         {% endif %}
         <input style="width:98%;" type="text" name="user_name" placeholder="Username">
         <input style="width:98%;" type="text" name="user_email" placeholder="Email">
-        <h4>Dispatch:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_dispatch"><br>
-        <h4>Officer:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_officer"><br>
-        <h4>Civilian:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_civilian"><br>
+        <h4 style="display:inline;">Dispatch:</h4> <input style="display:inline;margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_dispatch"><br>
+        <h4 style="display:inline;">Civilian:</h4> <input style="display:inline;margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_civilian"><br>
+        <h4 style="display:inline;">Officer:</h4> <input style="display:inline;margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_officer"><br>
         <input id="submit" style="width:98%;" type="submit" name="submit" value="Create User">
       </form>
     </div>
@@ -78,9 +78,9 @@
       <form method="POST" action="">
         <input style="width:98%;" type="text" name="user_name" placeholder="Username">
         <input style="width:98%;" type="text" name="user_email" placeholder="Email">
-        <h4>Dispatch:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_dispatch"><br>
-        <h4>Civilian:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_civilian"><br>
-        <h4>Officer:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_officer"><br>
+        <h4 style="display:inline;">Dispatch:</h4> <input style="display:inline;margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_dispatch"><br>
+        <h4 style="display:inline;">Civilian:</h4> <input style="display:inline;margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_civilian"><br>
+        <h4 style="display:inline;">Officer:</h4> <input style="display:inline;margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_officer"><br>
         <input id="submit" style="width:98%;" type="submit" value="Edit User">
         <input id="remove" style="width:98%;" type="submit" value="Remove User">
       </form>
@@ -96,7 +96,19 @@
   <form method="POST" action="">
     <div class="registration-admin">
       <p id="mini-header-admin">User Applications</p>
-        {{ applications_table }}
+      {% for applicant in applicants %}
+        <div id="single-registration">
+          <strong>Username: </strong>{{applicant['username']}} <strong>Email:</strong> {{applicant['email']}}
+          <strong>Roles:</strong>
+          {% if applicant[4] %}[Law Enforcement]{% endif %}
+          {% if applicant['is_civilian'] %}[Civilian]{% endif %}
+          {% if applicant['is_dispatch'] %}[Dispatch]{% endif %}
+          <input name="Approve" id="submit" style="width:10%;" type="submit" value="Approve">
+          <input name="Reject" id="remove" style="width:10%;" type="submit" value="Reject">
+          <input type="hidden" name="username" id="username" value={{applicant['username']}}>
+          <input type="hidden" name="email" id="email" value={{applicant['email']}}>
+        </div>
+      {% endfor %}
     </div>
   </form>
 

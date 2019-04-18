@@ -1,9 +1,8 @@
-import sqlite3
+from datetime import datetime
 
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from datetime import datetime
 
 Base = declarative_base()
 
@@ -286,29 +285,24 @@ class Database:
         else:
             return False
 
-    def approve_applicant(self, **kwargs):
-        email, username = kwargs.get("email"), kwargs.get("username")
-        applicant = (
-            self.session.query(Application)
-            .filter_by(email=email, username=username)
-            .first()
-        )
-        self.session.add(
-            User(
-                email=applicant.email,
-                username=applicant.username,
-                password=applicant.password,
-                unit_number=applicant.unit_number,
-                is_civilian=applicant.is_civilian,
-                is_dispatch=applicant.is_dispatch,
-                is_police=applicant.is_police,
+    def approve_applicant(self, username, email):
+        applicant = self.session.query(Application).filter_by(email=email, username=username).first()
+        if not self.check_user_exists(applicant.username, applicant.email, applicant.unit_number):
+            self.session.add(
+                User(
+                    email=applicant.email,
+                    username=applicant.username,
+                    password=applicant.password,
+                    unit_number=applicant.unit_number,
+                    is_civilian=applicant.is_civilian,
+                    is_dispatch=applicant.is_dispatch,
+                    is_police=applicant.is_police,
+                )
             )
-        )
         self.session.delete(applicant)
         self.session.commit()
 
-    def reject_applicant(self, **kwargs):
-        email, username = kwargs.get("email"), kwargs.get("username")
+    def reject_applicant(self, username, email):
         self.session.query(Application).filter_by(
             email=email, username=username
         ).delete()
