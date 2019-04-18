@@ -54,7 +54,7 @@ Want to contribute? We ❤️ pull requests!
 
 ### Contributors
  - 🐍 Aareon 🐳#0001 - Project lead and Lead of Backend Development
- - harryjoseph#3275 - Lead of Frontend Design and Development
+ - harry#3275 - Lead of Frontend Design and Development
 
 License
 ----
