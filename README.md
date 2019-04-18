@@ -53,7 +53,7 @@ Want to contribute? We ❤️ pull requests!
  - Discord integration
 
 ### Contributors
- - 🐍 Aareon 🐳#0001 - Project lead and Lead of Backend Development
+ - Aareon#0913 - Project lead and Lead of Backend Development
  - harry#3275 - Lead of Frontend Design and Development
 
 License
