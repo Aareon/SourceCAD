@@ -145,8 +145,8 @@ def registration():
         )
         if success:
             flash(
-                """Your account has been registered please wait for a member of the 
-                administration to approve your account.',success"""
+                """Your account has been registered please wait for a member of the
+                 administration to approve your account.',success"""
             )
             return redirect(url_for("login"))
         else:
@@ -322,13 +322,56 @@ def admin():
             )
             return redirect(url_for("admin"))
 
+        if request.form.get('userSearch'):
+            user = db.get_user_info_user(request.form['userSearch'])
+            with open("access_token.txt") as f:
+                current_token = f.read()
+            return render_template(
+                "admin.html",
+                user=user,
+                current_token=current_token,
+                applicants=applicants,
+                users=db.get_users(),
+                logins_table=gen_logins_table(),
+            )
+
+        if request.form['editUser']:
+            if request.form.get('is_officer'):
+                db.make_police(request.form['user_name'], 1)
+            else:
+                db.make_police(request.form['user_name'], 0)
+
+            if request.form.get('is_dispatch'):
+                db.make_dispatch(request.form['user_name'], 1)
+            else:
+                db.make_dispatch(request.form['user_name'], 0)
+
+            if request.form.get('is_civilian'):
+                db.make_civilian(request.form['user_name'], 1)
+            else:
+                db.make_civilian(request.form['user_name'], 0)
+
+            with open("access_token.txt") as f:
+                current_token = f.read()
+
+            return render_template(
+                "admin.html",
+                user=None,
+                current_token=current_token,
+                applicants=applicants,
+                users=db.get_users(),
+                logins_table=gen_logins_table(),
+            )
+
     if request.method == "GET":
         with open("access_token.txt") as f:
             current_token = f.read()
         return render_template(
             "admin.html",
+            user=None,
             current_token=current_token,
             applicants=applicants,
+            users=db.get_users(),
             logins_table=gen_logins_table(),
         )
 
@@ -338,4 +381,4 @@ if __name__ == "__main__":
         with open("access_token.txt", "w") as f:
             f.write(gen_access_token())
     app.config["SECRET_KEY"] = os.urandom(24)
-    app.run()
+    app.run(debug=True)

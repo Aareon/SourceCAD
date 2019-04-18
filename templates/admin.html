@@ -34,9 +34,9 @@
           </tr>
           <!-- in onclick="%edit%" change the hash to a edit portion -->
           <tr onclick="#">
-            <td>{{user}}</td>
-            <td>{{user_role}}</td>
-            <td>{{user_snowflake}}</td>
+            <td><!--{{user}}--></td>
+            <td><!--{{user_role}}--></td>
+            <td><!--{{user_snowflake}}--></td>
           </tr>
         </table>
       </div>
@@ -71,18 +71,24 @@
     </div>
 
     <div class="edit_user">
-      <form style="border-bottom:2px solid gray;margin-bottom:10px;" method="POST" action="">
-        <input style="width:90%;" type="text" name="search_user" placeholder="Search a user">
-        <input id="submit" style="width:8%;padding:3px;height:43px;" type="submit" value="Search" name="Search a user">
-      </form>
+      <div style="border-bottom:2px solid gray;margin-bottom:10px;padding-bottom:20px;">
+        <input style="width:95%;margin-bottom:0;" type="text" onkeyup="searchFunc()" id="searchId" name="search_user" placeholder="Search a user">
+        <div id="search-results">
+          <ul id="searchUl">
+            {% for user in users %}
+            <form method="POST" action=""><li><input type="submit" name="userSearch" value="{{ user.username }}"></li></form>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
       <form method="POST" action="">
-        <input style="width:98%;" type="text" name="user_name" placeholder="Username">
-        <input style="width:98%;" type="text" name="user_email" placeholder="Email">
-        <h4 style="display:inline;">Dispatch:</h4> <input style="display:inline;margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_dispatch"><br>
-        <h4 style="display:inline;">Civilian:</h4> <input style="display:inline;margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_civilian"><br>
-        <h4 style="display:inline;">Officer:</h4> <input style="display:inline;margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_officer"><br>
-        <input id="submit" style="width:98%;" type="submit" value="Edit User">
-        <input id="remove" style="width:98%;" type="submit" value="Remove User">
+        <input style="width:98%;" type="text" value="{{user.username}}" name="user_name" placeholder="Username">
+        <input style="width:98%;" disabled type="text" value="{{user.email}}" name="user_email" placeholder="Email">
+        <h4 style="display:inline;">Dispatch:</h4> <input style="display:inline;margin-top:4px;margin-bottom:0px;" {% if user.is_dispatch %} checked {% endif %} id="check" type="checkbox" name="is_dispatch"><br>
+        <h4 style="display:inline;">Civilian:</h4> <input style="display:inline;margin-top:4px;margin-bottom:0px;" {% if user.is_civilian %} checked {% endif %} id="check" type="checkbox" name="is_civilian"><br>
+        <h4 style="display:inline;">Officer:</h4> <input style="display:inline;margin-top:4px;margin-bottom:0px;" {% if user.is_police %} checked {% endif %} id="check" type="checkbox" name="is_officer"><br>
+        <input id="submit" style="width:98%;" type="submit" name="editUser" value="Edit User">
+        <input id="remove" style="width:98%;" type="submit" name="removeUser" value="Remove User">
       </form>
     </div>
 
@@ -113,6 +119,29 @@
   </form>
 
   </div>
+  
+  <script>
+    function searchFunc() {
+      // Declare variables
+      var input, filter, ul, li, a, i, txtValue;
+      input = document.getElementById('searchId');
+      filter = input.value.toUpperCase();
+      ul = document.getElementById("searchUl");
+      li = ul.getElementsByTagName('li');
+    
+      // Loop through all list items, and hide those who don't match the search query
+      for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("input")[0].value;
+        // txtValue = a.textContent || a.innerText;
+        if (a.toUpperCase().indexOf(filter) > -1) {
+          li[i].style.display = "initial";
+          console.log(li[i])
+        } else {
+          li[i].style.display = "none";
+        }
+      }
+    }
+  </script>
 </body>
 
 </html>

@@ -228,6 +228,29 @@ class Database:
         except:
             return (None, None, None, None, None, None, None, None, None)
 
+    def get_user_info_user(self, username=None):
+        # start integrating errors
+        if id is None:
+            return {"errors": "Invalid session. Try logging back in"}
+
+        try:
+            return (
+                self.session.query(
+                    User.email,
+                    User.username,
+                    User.unit_number,
+                    User.rank,
+                    User.is_civilian,
+                    User.is_dispatch,
+                    User.is_police,
+                    User.is_admin,
+                )
+                .filter_by(username=username)
+                .first()
+            )
+        except:
+            return (None, None, None, None, None, None, None, None, None)
+
     def check_user_exists(self, username, email, unit_number):
         if email is None:
             q = (
@@ -337,6 +360,9 @@ class Database:
             Application.is_police,
         ).all()
 
+    def get_users(self):
+        return self.session.query(User).all()
+
     def add_login(self, username, rank, role):
         now = datetime.now()
         date = now.strftime("%Y-%m-%d")
@@ -364,3 +390,18 @@ class Database:
             .limit(5)
             .all()
         )
+
+    def make_police(self, user, dec):
+        self.session.query(User).filter(User.username == user).\
+            update({User.is_police: dec}, synchronize_session=False)
+        self.session.commit()
+
+    def make_civilian(self, user, dec):
+        self.session.query(User).filter(User.username == user).\
+            update({User.is_civilian: dec}, synchronize_session=False)
+        self.session.commit()
+
+    def make_dispatch(self, user, dec):
+        self.session.query(User).filter(User.username == user)\
+            .update({User.is_dispatch: dec}, synchronize_session=False)
+        self.session.commit()

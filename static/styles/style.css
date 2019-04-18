@@ -678,6 +678,7 @@ tr:nth-child(odd) {
   width: 45%;
   padding: 20px;
   float: right;
+  position: relative;
 }
 
 .registration-admin {
@@ -701,6 +702,42 @@ tr:nth-child(odd) {
   padding: 2px;
   background-color: #bbb;
   border-bottom: 1.5px solid black;
+}
+
+#search-results {
+	position: absolute;
+	width: 92%;
+	background: #fdfdfd;
+	margin: auto;
+	padding: 0;
+}
+
+#search-results ul {
+	list-style-type: none;
+	padding-left: 0;
+	margin: 0;
+}
+
+#search-results ul li {
+	display: none;
+}
+
+
+#search-results ul form input {
+	text-align: left;
+	height: 40px;
+	margin: 0;
+	border: 1px solid black;
+	width: 100%;
+}
+
+#search-results ul form input:hover {
+	text-align: left;
+	height: 40px;
+	margin: 0;
+	border: 1px solid black;
+	width: 100%;
+	background-color: #bbb;
 }
 
 /* error.html */
@@ -1050,4 +1087,5 @@ tr:nth-child(odd) {
   width: 48%;
   margin-left: 40px;
 }
-../
+
+
