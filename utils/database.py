@@ -286,8 +286,14 @@ class Database:
             return False
 
     def approve_applicant(self, username, email):
-        applicant = self.session.query(Application).filter_by(email=email, username=username).first()
-        if not self.check_user_exists(applicant.username, applicant.email, applicant.unit_number):
+        applicant = (
+            self.session.query(Application)
+            .filter_by(email=email, username=username)
+            .first()
+        )
+        if not self.check_user_exists(
+            applicant.username, applicant.email, applicant.unit_number
+        ):
             self.session.add(
                 User(
                     email=applicant.email,
@@ -358,4 +364,3 @@ class Database:
             .limit(5)
             .all()
         )
-

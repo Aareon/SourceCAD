@@ -63,8 +63,8 @@ def login():
         # get unit number/email field
         units = request.form.get("units")
         if units is None:
-            flash('Please enter an email/unit number', 'error')
-            return render_template('login.html')
+            flash("Please enter an email/unit number", "error")
+            return render_template("login.html")
 
         # figure out if the user used their email or unit code to login
         use_email = True if "@" in units else False
@@ -73,8 +73,8 @@ def login():
         # get password, send them back if they didn't put anything
         password = request.form.get("password")
         if password is None:
-            flash('Please enter a password', 'error')
-            return render_template('login.html')
+            flash("Please enter a password", "error")
+            return render_template("login.html")
 
         # get old password hash and salt for a given user from database
         id, pass_hash = db.get_password(
@@ -83,8 +83,8 @@ def login():
 
         # in case a specific user doesn't exist
         if id is None:
-            flash('That user does not exist', 'error')
-            return render_template('login.html')
+            flash("That user does not exist", "error")
+            return render_template("login.html")
 
         # verify password matches previous hash
         if bcrypt.verify(password, pass_hash):
@@ -92,7 +92,7 @@ def login():
             session["logged_in"] = True
 
         # complete login... or not.
-        flash('Something went wrong', 'error')
+        flash("Something went wrong", "error")
         return redirect(url_for("index"))
 
     # in case of 'GET' request
@@ -111,7 +111,7 @@ def registration():
         is_civilian = bool(request.form.get("is_civilian", False))
         is_police = bool(request.form.get("is_police", False))
         if len(password) < 8:
-            flash('Password is required to be longer than (8) characters', 'error')
+            flash("Password is required to be longer than (8) characters", "error")
             return render_template("registration.html")
 
         password = bcrypt.hash(password)
@@ -121,31 +121,33 @@ def registration():
         with open("access_token.txt") as f:
             if access_token != f.read():
                 print("bad token")
-                flash('Incorrect access token', 'error')
+                flash("Incorrect access token", "error")
                 return render_template("registration.html")
 
         if "@" not in email:
-            flash('Incorrect email', 'error')
+            flash("Incorrect email", "error")
             return render_template("registration.html")
 
         if "." not in email:
-            flash('Incorrect email', 'error')
+            flash("Incorrect email", "error")
             return render_template("registration.html")
 
         if len(username) > 32:
-            flash('Incorrect username', 'error')
+            flash("Incorrect username", "error")
             return render_template("registration.html")
 
         if "-" not in unit_number or len(unit_number) > 5:
-            flash('Incorrect unit-number', 'error')
+            flash("Incorrect unit-number", "error")
             return render_template("registration.html")
 
         success = db.create_applicant(
             username, email, unit_number, password, is_dispatch, is_civilian, is_police
         )
         if success:
-            flash('''Your account has been registered please wait for a member of the 
-                administration to approve your account.',success''')
+            flash(
+                """Your account has been registered please wait for a member of the 
+                administration to approve your account.',success"""
+            )
             return redirect(url_for("login"))
         else:
             return registration()
@@ -233,7 +235,7 @@ def gen_access_token():
     return "".join(choice(chars) for _ in range(12))
 
 
-'''def gen_applicants_table():
+"""def gen_applicants_table():
     applicants = db.get_applicants()
 
     if len(applicants) == 0:
@@ -267,7 +269,7 @@ def gen_access_token():
             applicant_email=applicant[1],
             applicant_roles=roles,
         )
-    return Markup(output)'''
+    return Markup(output)"""
 
 
 def gen_logins_table():
