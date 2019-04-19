@@ -392,16 +392,19 @@ class Database:
         )
 
     def make_police(self, user, dec):
-        self.session.query(User).filter(User.username == user).\
-            update({User.is_police: dec}, synchronize_session=False)
+        self.session.query(User).filter(User.username == user).update(
+            {User.is_police: dec}, synchronize_session=False
+        )
         self.session.commit()
 
     def make_civilian(self, user, dec):
-        self.session.query(User).filter(User.username == user).\
-            update({User.is_civilian: dec}, synchronize_session=False)
+        self.session.query(User).filter(User.username == user).update(
+            {User.is_civilian: dec}, synchronize_session=False
+        )
         self.session.commit()
 
     def make_dispatch(self, user, dec):
-        self.session.query(User).filter(User.username == user)\
-            .update({User.is_dispatch: dec}, synchronize_session=False)
+        self.session.query(User).filter(User.username == user).update(
+            {User.is_dispatch: dec}, synchronize_session=False
+        )
         self.session.commit()

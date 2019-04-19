@@ -323,8 +323,8 @@ def admin():
             )
             return redirect(url_for("admin"))
 
-        if request.form.get('userSearch'):
-            user = db.get_user_info_user(request.form['userSearch'])
+        if request.form.get("userSearch"):
+            user = db.get_user_info_user(request.form["userSearch"])
             with open("access_token.txt") as f:
                 current_token = f.read()
             return render_template(
@@ -336,21 +336,21 @@ def admin():
                 logins_table=gen_logins_table(),
             )
 
-        if request.form.get('editUser'):
-            if request.form.get('is_officer'):
-                db.make_police(request.form['user_name'], 1)
+        if request.form.get("editUser"):
+            if request.form.get("is_officer"):
+                db.make_police(request.form["user_name"], 1)
             else:
-                db.make_police(request.form['user_name'], 0)
+                db.make_police(request.form["user_name"], 0)
 
-            if request.form.get('is_dispatch'):
-                db.make_dispatch(request.form['user_name'], 1)
+            if request.form.get("is_dispatch"):
+                db.make_dispatch(request.form["user_name"], 1)
             else:
-                db.make_dispatch(request.form['user_name'], 0)
+                db.make_dispatch(request.form["user_name"], 0)
 
-            if request.form.get('is_civilian'):
-                db.make_civilian(request.form['user_name'], 1)
+            if request.form.get("is_civilian"):
+                db.make_civilian(request.form["user_name"], 1)
             else:
-                db.make_civilian(request.form['user_name'], 0)
+                db.make_civilian(request.form["user_name"], 0)
 
             with open("access_token.txt") as f:
                 current_token = f.read()
@@ -364,7 +364,7 @@ def admin():
                 logins_table=gen_logins_table(),
             )
 
-        if request.form.get('addUser'):
+        if request.form.get("addUser"):
             username = request.form.get("user_name")
             email = request.form.get("user_email")
             password = "$2b$12$7oeGP7jI3CXm5gLxpPATueQgLZmpxzkBkCpdh.syTkRQmlU1X8Ove"
@@ -390,11 +390,19 @@ def admin():
                 return redirect(url_for("admin"))
 
             success = db.create_applicant(
-                username, email, unit_number, password, is_dispatch, is_civilian, is_police
+                username,
+                email,
+                unit_number,
+                password,
+                is_dispatch,
+                is_civilian,
+                is_police,
             )
 
             if success:
-                flash("User has been created with default password: 'password'", "success")
+                flash(
+                    "User has been created with default password: 'password'", "success"
+                )
                 return redirect(url_for("admin"))
             else:
                 flash("There has been an error!")
