@@ -145,8 +145,8 @@ def registration():
         )
         if success:
             flash(
-                """Your account has been registered please wait for a member of the
-                 administration to approve your account.',success"""
+                '''Your account has been registered please wait for a member of the
+                 administration to approve your account.''' ,'success'
             )
             return redirect(url_for("login"))
         else:
