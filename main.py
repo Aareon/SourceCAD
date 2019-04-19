@@ -364,6 +364,42 @@ def admin():
                 logins_table=gen_logins_table(),
             )
 
+        if request.form.get('addUser'):
+            username = request.form.get("user_name")
+            email = request.form.get("user_email")
+            password = "$2b$12$7oeGP7jI3CXm5gLxpPATueQgLZmpxzkBkCpdh.syTkRQmlU1X8Ove"
+            unit_number = request.form.get("unit_number")
+            is_dispatch = bool(request.form.get("is_dispatch", False))
+            is_civilian = bool(request.form.get("is_civilian", False))
+            is_police = bool(request.form.get("is_police", False))
+
+            if "@" not in email:
+                flash("Incorrect email", "error")
+                return redirect(url_for("admin"))
+
+            if "." not in email:
+                flash("Incorrect email", "error")
+                return redirect(url_for("admin"))
+
+            if len(username) > 32:
+                flash("Incorrect username", "error")
+                return redirect(url_for("admin"))
+
+            if "-" not in unit_number or len(unit_number) > 5:
+                flash("Incorrect unit-number", "error")
+                return redirect(url_for("admin"))
+
+            success = db.create_applicant(
+                username, email, unit_number, password, is_dispatch, is_civilian, is_police
+            )
+
+            if success:
+                flash("User has been created with default password: 'password'", "success")
+                return redirect(url_for("admin"))
+            else:
+                flash("There has been an error!")
+                return redirect(url_for("admin"))
+
     if request.method == "GET":
         with open("access_token.txt") as f:
             current_token = f.read()
