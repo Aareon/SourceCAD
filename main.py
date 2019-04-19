@@ -300,7 +300,8 @@ def admin():
         return redirect(url_for("index"))
 
     if request.method == "POST":
-        if request.form.get("submit") == "Create Token":
+        if request.form.get("submitNewToken"):
+            print(gen_access_token())
             # TODO : make this less shit. can't right now. just delete and re-make the file
             with open("access_token.txt", "r+") as f:
                 f.read()
@@ -335,7 +336,7 @@ def admin():
                 logins_table=gen_logins_table(),
             )
 
-        if request.form['editUser']:
+        if request.form.get('editUser'):
             if request.form.get('is_officer'):
                 db.make_police(request.form['user_name'], 1)
             else:
