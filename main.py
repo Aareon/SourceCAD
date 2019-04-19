@@ -301,8 +301,6 @@ def admin():
 
     if request.method == "POST":
         if request.form.get("submitNewToken"):
-            print(gen_access_token())
-            # TODO : make this less shit. can't right now. just delete and re-make the file
             with open("access_token.txt", "r+") as f:
                 f.read()
                 f.seek(0)
