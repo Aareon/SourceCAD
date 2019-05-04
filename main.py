@@ -1,3 +1,4 @@
+import logging
 import os
 from random import choice
 from string import ascii_uppercase
@@ -77,18 +78,18 @@ def login():
             return render_template("login.html")
 
         # get old password hash and salt for a given user from database
-        id, pass_hash = db.get_password(
+        user_id, pass_hash = db.get_password(
             units, use_email=use_email, use_unit_number=use_unit_number
         )
 
         # in case a specific user doesn't exist
-        if id is None:
+        if user_id is None:
             flash("That user does not exist", "error")
             return render_template("login.html")
 
         # verify password matches previous hash
         if bcrypt.verify(password, pass_hash):
-            session["user_id"] = id
+            session["user_id"] = user_id
             session["logged_in"] = True
 
         # complete login... or not.
@@ -100,6 +101,18 @@ def login():
         return render_template("login.html")
 
 
+def check_email(email):
+    if "@" not in email:
+        flash("Incorrect email", "error")
+        return False
+
+    if "." not in email:
+        flash("Incorrect email", "error")
+        return False
+
+    return True
+
+
 @app.route("/registration", methods=["POST", "GET"])
 def registration():
     if request.method == "POST":
@@ -107,9 +120,9 @@ def registration():
         email = request.form.get("email")
         unit_number = request.form.get("unit_number")
         password = request.form.get("password")
-        is_dispatch = bool(request.form.get("is_dispatch", False))
-        is_civilian = bool(request.form.get("is_civilian", False))
-        is_police = bool(request.form.get("is_police", False))
+        is_dispatch: bool = request.form.get("is_dispatch", False)
+        is_civilian: bool = request.form.get("is_civilian", False)
+        is_police: bool = request.form.get("is_police", False)
         if len(password) < 8:
             flash("Password is required to be longer than (8) characters", "error")
             return render_template("registration.html")
@@ -120,16 +133,12 @@ def registration():
 
         with open("access_token.txt") as f:
             if access_token != f.read():
-                print("bad token")
+                logging.INFO("bad token")
                 flash("Incorrect access token", "error")
                 return render_template("registration.html")
 
-        if "@" not in email:
-            flash("Incorrect email", "error")
-            return render_template("registration.html")
-
-        if "." not in email:
-            flash("Incorrect email", "error")
+        if check_email(email) is False:
+            flash("Please enter an email.", "error")
             return render_template("registration.html")
 
         if len(username) > 32:
@@ -141,12 +150,19 @@ def registration():
             return render_template("registration.html")
 
         success = db.create_applicant(
-            username, email, unit_number, password, is_dispatch, is_civilian, is_police
+            username,
+            email,
+            unit_number,
+            password,
+            is_dispatch,
+            is_civilian,
+            is_police
         )
         if success:
             flash(
-                '''Your account has been registered please wait for a member of the
-                 administration to approve your account.''' ,'success'
+                """Your account has been registered please wait for a member of the
+                 administration to approve your account.""",
+                "success",
             )
             return redirect(url_for("login"))
         else:
@@ -367,9 +383,9 @@ def admin():
             email = request.form.get("user_email")
             password = "$2b$12$7oeGP7jI3CXm5gLxpPATueQgLZmpxzkBkCpdh.syTkRQmlU1X8Ove"
             unit_number = request.form.get("unit_number")
-            is_dispatch = bool(request.form.get("is_dispatch", False))
-            is_civilian = bool(request.form.get("is_civilian", False))
-            is_police = bool(request.form.get("is_police", False))
+            is_dispatch: bool = request.form.get("is_dispatch", False)
+            is_civilian: bool = request.form.get("is_civilian", False)
+            is_police: bool = request.form.get("is_police", False)
 
             if "@" not in email:
                 flash("Incorrect email", "error")
