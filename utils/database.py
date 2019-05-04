@@ -1,9 +1,8 @@
-import sqlite3
+from datetime import datetime
 
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from datetime import datetime
 
 Base = declarative_base()
 
@@ -14,7 +13,7 @@ class User(Base):
     id = Column(Integer, primary_key=True, nullable=False)
     email = Column(String(length=255), unique=True, nullable=True)
     username = Column(String(length=32), unique=True, nullable=True)
-    password = Column(String(length=255), unique=True, nullable=False)
+    password = Column(String(length=255), unique=False, nullable=False)
     unit_number = Column(String(length=4), unique=True, nullable=True, default="")
     rank = Column(String(length=54), unique=False, nullable=True, default="")
     is_civilian = Column(Integer, unique=False, default=0)
@@ -35,7 +34,7 @@ class Application(Base):
     id = Column(Integer, primary_key=True, nullable=False)
     email = Column(String(length=255), unique=True, nullable=True)
     username = Column(String(length=32), unique=True, nullable=True)
-    password = Column(String(length=255), unique=True, nullable=False)
+    password = Column(String(length=255), unique=False, nullable=False)
     unit_number = Column(String(length=4), unique=True, nullable=True, default="")
     rank = Column(String(length=54), unique=False, nullable=True, default="")
     is_civilian = Column(Integer, unique=False, default=0)
@@ -229,6 +228,29 @@ class Database:
         except:
             return (None, None, None, None, None, None, None, None, None)
 
+    def get_user_info_user(self, username=None):
+        # start integrating errors
+        if id is None:
+            return {"errors": "Invalid session. Try logging back in"}
+
+        try:
+            return (
+                self.session.query(
+                    User.email,
+                    User.username,
+                    User.unit_number,
+                    User.rank,
+                    User.is_civilian,
+                    User.is_dispatch,
+                    User.is_police,
+                    User.is_admin,
+                )
+                .filter_by(username=username)
+                .first()
+            )
+        except:
+            return (None, None, None, None, None, None, None, None, None)
+
     def check_user_exists(self, username, email, unit_number):
         if email is None:
             q = (
@@ -286,31 +308,38 @@ class Database:
         else:
             return False
 
-    def approve_applicant(self, **kwargs):
-        email, username = kwargs.get("email"), kwargs.get("username")
+    def approve_applicant(self, username, email):
         applicant = (
             self.session.query(Application)
             .filter_by(email=email, username=username)
             .first()
         )
-        self.session.add(
-            User(
-                email=applicant.email,
-                username=applicant.username,
-                password=applicant.password,
-                unit_number=applicant.unit_number,
-                is_civilian=applicant.is_civilian,
-                is_dispatch=applicant.is_dispatch,
-                is_police=applicant.is_police,
+        if not self.check_user_exists(
+            applicant.username, applicant.email, applicant.unit_number
+        ):
+            self.session.add(
+                User(
+                    email=applicant.email,
+                    username=applicant.username,
+                    password=applicant.password,
+                    unit_number=applicant.unit_number,
+                    is_civilian=applicant.is_civilian,
+                    is_dispatch=applicant.is_dispatch,
+                    is_police=applicant.is_police,
+                )
             )
-        )
         self.session.delete(applicant)
         self.session.commit()
 
-    def reject_applicant(self, **kwargs):
-        email, username = kwargs.get("email"), kwargs.get("username")
+    def reject_applicant(self, username, email):
         self.session.query(Application).filter_by(
             email=email, username=username
+        ).delete()
+        self.session.commit()
+
+    def remove_user(self, username):
+        self.session.query(User).filter_by(
+            username=username
         ).delete()
         self.session.commit()
 
@@ -336,6 +365,9 @@ class Database:
             Application.is_dispatch,
             Application.is_police,
         ).all()
+
+    def get_users(self):
+        return self.session.query(User).all()
 
     def add_login(self, username, rank, role):
         now = datetime.now()
@@ -365,3 +397,20 @@ class Database:
             .all()
         )
 
+    def make_police(self, user, dec):
+        self.session.query(User).filter(User.username == user).update(
+            {User.is_police: dec}, synchronize_session=False
+        )
+        self.session.commit()
+
+    def make_civilian(self, user, dec):
+        self.session.query(User).filter(User.username == user).update(
+            {User.is_civilian: dec}, synchronize_session=False
+        )
+        self.session.commit()
+
+    def make_dispatch(self, user, dec):
+        self.session.query(User).filter(User.username == user).update(
+            {User.is_dispatch: dec}, synchronize_session=False
+        )
+        self.session.commit()

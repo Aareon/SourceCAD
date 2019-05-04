@@ -25,19 +25,21 @@
 
     <div class="tables">
       <div class="user_table">
-        <table style="float:left;margin-right:40px;">
+        <table style="float:left;width:100%;">
           <caption>Users</caption>
           <tr>
             <th>User</th>
-            <th>Role</th>
+            <th>Roles</th>
             <th>User Snowflake</th>
           </tr>
           <!-- in onclick="%edit%" change the hash to a edit portion -->
+          {% for user in users %}
           <tr onclick="#">
-            <td>{{user}}</td>
-            <td>{{user_role}}</td>
-            <td>{{user_snowflake}}</td>
+            <td><span {% if user.is_admin %} style="color:red;"{% endif %}>{{user.username}}</td>
+            <td>{% if user.is_police %}Law Enforcement, {% endif %}{% if user.is_civilian %}Civilian, {% endif %}{% if user.is_dispatch %}Dispatch, {% endif %}</td>
+            <td>{{user.snowflake}}</td>
           </tr>
+          {% endfor %}
         </table>
       </div>
 
@@ -55,52 +57,104 @@
         </table>
       </div>
     </div>
-
-    <div class="adduser">
-      <form method="POST" action="">
-        {% if session.error is not none %}
-          <caption>{{session.error}}</caption>
-        {% endif %}
-        <input style="width:98%;" type="text" name="user_name" placeholder="Username">
-        <input style="width:98%;" type="text" name="user_email" placeholder="Email">
-        <h4>Dispatch:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_dispatch"><br>
-        <h4>Officer:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_officer"><br>
-        <h4>Civilian:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_civilian"><br>
-        <input id="submit" style="width:98%;" type="submit" name="submit" value="Create User">
-      </form>
-    </div>
-
-    <div class="edit_user">
-      <form style="border-bottom:2px solid gray;margin-bottom:10px;" method="POST" action="">
-        <input style="width:90%;" type="text" name="search_user" placeholder="Search a user">
-        <input id="submit" style="width:8%;padding:3px;height:43px;" type="submit" value="Search" name="Search a user">
-      </form>
-      <form method="POST" action="">
-        <input style="width:98%;" type="text" name="user_name" placeholder="Username">
-        <input style="width:98%;" type="text" name="user_email" placeholder="Email">
-        <h4>Dispatch:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_dispatch"><br>
-        <h4>Civilian:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_civilian"><br>
-        <h4>Officer:</h4> <input style="margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_officer"><br>
-        <input id="submit" style="width:98%;" type="submit" value="Edit User">
-        <input id="remove" style="width:98%;" type="submit" value="Remove User">
-      </form>
-    </div>
-
-    <div style="float:left;" id="form-token">
-      <form method="POST" action="">
-        <input id="submit" style="width:98%;" name="submit" type="submit" value="Generate New Token">
-        <input style="width:96%;" type="text" name="current_token" value="{{ current_token }}" readonly="readonly">
-      </form>
+    
+    <div class="admin-forms">
+      <div class="adduser">
+        <form method="POST" action="">
+          {% if session.error is not none %}
+            <caption>{{session.error}}</caption>
+          {% endif %}
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="{{ category }}">
+                  <p>{{ message }}</p>
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+          <input style="width:98%;" type="text" name="user_name" placeholder="Username">
+          <input style="width:98%;" type="text" name="user_email" placeholder="Email">
+          <input style="width:98%;" type="text" name="unit_number" placeholder="Unit Number (1A-01)">
+          <h4 style="display:inline;">Dispatch:</h4> <input style="display:inline;margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_dispatch"><br>
+          <h4 style="display:inline;">Civilian:</h4> <input style="display:inline;margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_civilian"><br>
+          <h4 style="display:inline;">Officer:</h4> <input style="display:inline;margin-top:4px;margin-bottom:0px;" id="check" type="checkbox" name="is_officer"><br>
+          <input id="submit" style="width:98%;" type="submit" name="addUser" value="Create User">
+        </form>
+      </div>
+  
+      <div class="edit_user">
+        <div style="border-bottom:2px solid gray;margin-bottom:10px;padding-bottom:20px;">
+          <input style="width:95%;margin-bottom:0;" type="text" onkeyup="searchFunc()" id="searchId" name="search_user" placeholder="Search a user">
+          <div id="search-results">
+            <ul id="searchUl">
+              {% for user in users %}
+              <form method="POST" action=""><li><input type="submit" name="userSearch" value="{{ user.username }}"></li></form>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <form method="POST" action="">
+          <input style="width:98%;" type="text" value="{{user.username}}" name="user_name" placeholder="Username">
+          <input style="width:98%;" disabled type="text" value="{{user.email}}" name="user_email" placeholder="Email">
+          <h4 style="display:inline;">Dispatch:</h4> <input style="display:inline;margin-top:4px;margin-bottom:0px;" {% if user.is_dispatch %} checked {% endif %} id="check" type="checkbox" name="is_dispatch"><br>
+          <h4 style="display:inline;">Civilian:</h4> <input style="display:inline;margin-top:4px;margin-bottom:0px;" {% if user.is_civilian %} checked {% endif %} id="check" type="checkbox" name="is_civilian"><br>
+          <h4 style="display:inline;">Officer:</h4> <input style="display:inline;margin-top:4px;margin-bottom:0px;" {% if user.is_police %} checked {% endif %} id="check" type="checkbox" name="is_officer"><br>
+          <input id="submit" style="width:98%;" type="submit" name="editUser" value="Edit User">
+          <input id="remove" style="width:98%;" type="submit" name="removeUser" value="Remove User">
+        </form>
+      </div>
+  
+      <div style="float:left;" id="form-token">
+        <form method="POST" action="">
+          <input id="submit" style="width:98%;" name="submitNewToken" type="submit" value="Generate New Token">
+          <input style="width:96%;" type="text" name="current_token" value="{{ current_token }}" readonly="readonly">
+        </form>
+      </div>
     </div>
   
   <form method="POST" action="">
     <div class="registration-admin">
       <p id="mini-header-admin">User Applications</p>
-        {{ applications_table }}
+      {% for applicant in applicants %}
+        <div id="single-registration">
+          <strong>Username: </strong>{{applicant['username']}} <strong>Email:</strong> {{applicant['email']}}
+          <strong>Roles:</strong>
+          {% if applicant[4] %}[Law Enforcement]{% endif %}
+          {% if applicant['is_civilian'] %}[Civilian]{% endif %}
+          {% if applicant['is_dispatch'] %}[Dispatch]{% endif %}
+          <input name="Approve" id="submit" style="width:10%;" type="submit" value="Approve">
+          <input name="Reject" id="remove" style="width:10%;" type="submit" value="Reject">
+          <input type="hidden" name="username" id="username" value={{applicant['username']}}>
+          <input type="hidden" name="email" id="email" value={{applicant['email']}}>
+        </div>
+      {% endfor %}
     </div>
   </form>
 
   </div>
+  
+  <script>
+    function searchFunc() {
+      // Declare variables
+      var input, filter, ul, li, a, i, txtValue;
+      input = document.getElementById('searchId');
+      filter = input.value.toUpperCase();
+      ul = document.getElementById("searchUl");
+      li = ul.getElementsByTagName('li');
+    
+      // Loop through all list items, and hide those who don't match the search query
+      for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("input")[0].value;
+        // txtValue = a.textContent || a.innerText;
+        if (a.toUpperCase().indexOf(filter) > -1) {
+          li[i].style.display = "initial";
+        } else {
+          li[i].style.display = "none";
+        }
+      }
+    }
+  </script>
 </body>
 
 </html>

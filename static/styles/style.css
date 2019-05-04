@@ -637,7 +637,7 @@ h4 {
 table {
   font-family: 'Helvetica', Arial, sans-serif;
   border-collapse: collapse;
-  width: 47%;
+  width: 90%;
   margin-left: 40px;
   table-layout: fixed;
 }
@@ -659,6 +659,14 @@ tr:nth-child(odd) {
 .tables {
   margin-top: 150px;
   width: 100%;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-column-gap: 30px;
+}
+
+.admin-forms {
+  display: grid;
+  grid-template-columns: 50% 50%;
 }
 
 .adduser {
@@ -667,17 +675,24 @@ tr:nth-child(odd) {
   background-color: #fff;
   border-radius: 2px;
   padding: 20px;
-  width: 45%;
+  width: 90%;
   float: left;
+}
+
+.user_table, activity_table {
+	overflow-y: auto;
+	overflow-x: hidden;
+	height: 250px;
 }
 
 .edit_user {
   background-color: #fff;
   font-family: 'Helvetica', Arial, sans-serif;
   margin: 40px 40px 10px 10px;
-  width: 45%;
+  width: 90%;
   padding: 20px;
   float: right;
+  position: relative;
 }
 
 .registration-admin {
@@ -701,6 +716,42 @@ tr:nth-child(odd) {
   padding: 2px;
   background-color: #bbb;
   border-bottom: 1.5px solid black;
+}
+
+#search-results {
+	position: absolute;
+	width: 92%;
+	background: #fdfdfd;
+	margin: auto;
+	padding: 0;
+}
+
+#search-results ul {
+	list-style-type: none;
+	padding-left: 0;
+	margin: 0;
+}
+
+#search-results ul li {
+	display: none;
+}
+
+
+#search-results ul form input {
+	text-align: left;
+	height: 40px;
+	margin: 0;
+	border: 1px solid black;
+	width: 100%;
+}
+
+#search-results ul form input:hover {
+	text-align: left;
+	height: 40px;
+	margin: 0;
+	border: 1px solid black;
+	width: 100%;
+	background-color: #bbb;
 }
 
 /* error.html */
@@ -1047,7 +1098,8 @@ tr:nth-child(odd) {
 }
 
 #form-token {
-  width: 48%;
+  width: 90%;
   margin-left: 40px;
 }
-../
+
+

@@ -1,7 +1,9 @@
 import logging
 import os
-import sys
-from passlib.hash import bcrypt
+from random import choice
+from string import ascii_uppercase
+from string import digits as string_digits
+
 from flask import (
     Flask,
     flash,
@@ -12,10 +14,9 @@ from flask import (
     url_for,
     Markup,
 )
-from utils.database import Database, User
-from string import ascii_uppercase
-from string import digits as string_digits
-from random import choice
+from passlib.hash import bcrypt
+
+from utils.database import Database
 
 # create a Flask application with name "__main__"
 db = Database()
@@ -63,8 +64,8 @@ def login():
         # get unit number/email field
         units = request.form.get("units")
         if units is None:
-            flash('Please enter an email/unit number', 'error')
-            return render_template('login.html')
+            flash("Please enter an email/unit number", "error")
+            return render_template("login.html")
 
         # figure out if the user used their email or unit code to login
         use_email = True if "@" in units else False
@@ -73,31 +74,43 @@ def login():
         # get password, send them back if they didn't put anything
         password = request.form.get("password")
         if password is None:
-            flash('Please enter a password', 'error')
-            return render_template('login.html')
+            flash("Please enter a password", "error")
+            return render_template("login.html")
 
         # get old password hash and salt for a given user from database
-        id, pass_hash = db.get_password(
+        user_id, pass_hash = db.get_password(
             units, use_email=use_email, use_unit_number=use_unit_number
         )
 
         # in case a specific user doesn't exist
-        if id is None:
-            flash('That user does not exist', 'error')
-            return render_template('login.html')
+        if user_id is None:
+            flash("That user does not exist", "error")
+            return render_template("login.html")
 
         # verify password matches previous hash
         if bcrypt.verify(password, pass_hash):
-            session["user_id"] = id
+            session["user_id"] = user_id
             session["logged_in"] = True
 
         # complete login... or not.
-        flash('Something went wrong', 'error')
+        flash("Something went wrong", "error")
         return redirect(url_for("index"))
 
     # in case of 'GET' request
     else:
         return render_template("login.html")
+
+
+def check_email(email):
+    if "@" not in email:
+        flash("Incorrect email", "error")
+        return False
+
+    if "." not in email:
+        flash("Incorrect email", "error")
+        return False
+
+    return True
 
 
 @app.route("/registration", methods=["POST", "GET"])
@@ -107,11 +120,11 @@ def registration():
         email = request.form.get("email")
         unit_number = request.form.get("unit_number")
         password = request.form.get("password")
-        is_dispatch = bool(request.form.get("is_dispatch", False))
-        is_civilian = bool(request.form.get("is_civilian", False))
-        is_police = bool(request.form.get("is_police", False))
+        is_dispatch: bool = request.form.get("is_dispatch", False)
+        is_civilian: bool = request.form.get("is_civilian", False)
+        is_police: bool = request.form.get("is_police", False)
         if len(password) < 8:
-            flash('Password is required to be longer than (8) characters', 'error')
+            flash("Password is required to be longer than (8) characters", "error")
             return render_template("registration.html")
 
         password = bcrypt.hash(password)
@@ -120,32 +133,38 @@ def registration():
 
         with open("access_token.txt") as f:
             if access_token != f.read():
-                print("bad token")
-                flash('Incorrect access token', 'error')
+                logging.INFO("bad token")
+                flash("Incorrect access token", "error")
                 return render_template("registration.html")
 
-        if "@" not in email:
-            flash('Incorrect email', 'error')
-            return render_template("registration.html")
-
-        if "." not in email:
-            flash('Incorrect email', 'error')
+        if not check_email(email):
+            flash("Please enter an email.", "error")
             return render_template("registration.html")
 
         if len(username) > 32:
-            flash('Incorrect username', 'error')
+            flash("Incorrect username", "error")
             return render_template("registration.html")
 
         if "-" not in unit_number or len(unit_number) > 5:
-            flash('Incorrect unit-number', 'error')
+            flash("Incorrect unit-number", "error")
             return render_template("registration.html")
 
         success = db.create_applicant(
-            username, email, unit_number, password, is_dispatch, is_civilian, is_police
+            username,
+            email,
+            unit_number,
+            password,
+            is_dispatch,
+            is_civilian,
+            is_police
         )
         if success:
-            flash('Your account has been registered please wait for a member of the administration to approve your account.', 'success')
-            return render_template("login.html")
+            flash(
+                """Your account has been registered please wait for a member of the
+                 administration to approve your account.""",
+                "success",
+            )
+            return redirect(url_for("login"))
         else:
             return registration()
 
@@ -232,7 +251,7 @@ def gen_access_token():
     return "".join(choice(chars) for _ in range(12))
 
 
-def gen_applicants_table():
+"""def gen_applicants_table():
     applicants = db.get_applicants()
 
     if len(applicants) == 0:
@@ -241,11 +260,11 @@ def gen_applicants_table():
         )
 
     template = '<div id="single-registration">\n\
-      <solid>Username: </solid>{applicant_username} <solid>Email:</solid> {applicant_email} <solid>Roles:</solid> {applicant_roles}\n\
+      <solid>Username: </solid>{applicant_username} <solid>Email:</solid> {applicant_email} <solid>Roles:</solid> {{applicant_roles}}\n\
         <input name="submit" id="submit" style="width:10%;" type="submit" value="Approve">\n\
         <input name="submit" id="remove" style="width:10%;" type="submit" value="Reject">\n\
-        <input type="hidden" name="username" id="username" value={applicant_username}>\n\
-        <input type="hidden" name="email" id="email" value={applicant_email}>\n\
+        <input type="hidden" name="username" id="username" value={{applicant_username}}>\n\
+        <input type="hidden" name="email" id="email" value={{applicant_email}}>\n\
     </div>'
 
     output = ""
@@ -266,7 +285,7 @@ def gen_applicants_table():
             applicant_email=applicant[1],
             applicant_roles=roles,
         )
-    return Markup(output)
+    return Markup(output)"""
 
 
 def gen_logins_table():
@@ -289,6 +308,7 @@ def gen_logins_table():
 
 @app.route("/admin", methods=["POST", "GET"])
 def admin():
+    applicants = db.get_applicants()
     if not session.get("logged_in"):
         return redirect(url_for("login"))
 
@@ -296,8 +316,7 @@ def admin():
         return redirect(url_for("index"))
 
     if request.method == "POST":
-        if request.form.get("submit") == "Create Token":
-            # TODO : make this less shit. can't right now. just delete and re-make the file
+        if request.form.get("submitNewToken"):
             with open("access_token.txt", "r+") as f:
                 f.read()
                 f.seek(0)
@@ -306,25 +325,120 @@ def admin():
                 return redirect(url_for("admin"))
 
         # what I was going to do doesn't work
-        if request.form.get("submit") == "Approve":
+        if request.form.get("Approve"):
             db.approve_applicant(
-                username=request.form.get("username"), email=request.form.get("email")
+                username=request.form["username"], email=request.form["email"]
             )
             return redirect(url_for("admin"))
 
-        elif request.form.get("submit") == "Reject":
+        elif request.form.get("Reject"):
             db.reject_applicant(
                 username=request.form.get("username"), email=request.form.get("email")
             )
             return redirect(url_for("admin"))
+
+        if request.form.get("userSearch"):
+            user = db.get_user_info_user(request.form["userSearch"])
+            with open("access_token.txt") as f:
+                current_token = f.read()
+            return render_template(
+                "admin.html",
+                user=user,
+                current_token=current_token,
+                applicants=applicants,
+                users=db.get_users(),
+                logins_table=gen_logins_table(),
+            )
+
+        if request.form.get("editUser"):
+            if request.form.get("is_officer"):
+                db.make_police(request.form["user_name"], 1)
+            else:
+                db.make_police(request.form["user_name"], 0)
+
+            if request.form.get("is_dispatch"):
+                db.make_dispatch(request.form["user_name"], 1)
+            else:
+                db.make_dispatch(request.form["user_name"], 0)
+
+            if request.form.get("is_civilian"):
+                db.make_civilian(request.form["user_name"], 1)
+            else:
+                db.make_civilian(request.form["user_name"], 0)
+
+            with open("access_token.txt") as f:
+                current_token = f.read()
+
+            return render_template(
+                "admin.html",
+                user=None,
+                current_token=current_token,
+                applicants=applicants,
+                users=db.get_users(),
+                logins_table=gen_logins_table(),
+            )
+
+        if request.form.get("addUser"):
+            username = request.form.get("user_name")
+            email = request.form.get("user_email")
+            password = "$2b$12$7oeGP7jI3CXm5gLxpPATueQgLZmpxzkBkCpdh.syTkRQmlU1X8Ove"
+            unit_number = request.form.get("unit_number")
+            is_dispatch: bool = request.form.get("is_dispatch", False)
+            is_civilian: bool = request.form.get("is_civilian", False)
+            is_police: bool = request.form.get("is_police", False)
+
+            if "@" not in email:
+                flash("Incorrect email", "error")
+                return redirect(url_for("admin"))
+
+            if "." not in email:
+                flash("Incorrect email", "error")
+                return redirect(url_for("admin"))
+
+            if len(username) > 32:
+                flash("Incorrect username", "error")
+                return redirect(url_for("admin"))
+
+            if "-" not in unit_number or len(unit_number) > 5:
+                flash("Incorrect unit-number", "error")
+                return redirect(url_for("admin"))
+
+            success = db.create_applicant(
+                username,
+                email,
+                unit_number,
+                password,
+                is_dispatch,
+                is_civilian,
+                is_police,
+            )
+
+            if success:
+                flash(
+                    "User has been created with default password: 'password'", "success"
+                )
+                return redirect(url_for("admin"))
+            else:
+                flash("There has been an error!")
+                return redirect(url_for("admin"))
+
+        if request.form.get("removeUser"):
+            flash(
+                "User has been deleted.", "success"
+            )
+            db.remove_user(request.form["user_name"])
+            return redirect(url_for("admin"))
+
 
     if request.method == "GET":
         with open("access_token.txt") as f:
             current_token = f.read()
         return render_template(
             "admin.html",
+            user=None,
             current_token=current_token,
-            applications_table=gen_applicants_table(),
+            applicants=applicants,
+            users=db.get_users(),
             logins_table=gen_logins_table(),
         )
 
@@ -334,4 +448,4 @@ if __name__ == "__main__":
         with open("access_token.txt", "w") as f:
             f.write(gen_access_token())
     app.config["SECRET_KEY"] = os.urandom(24)
-    app.run()
+    app.run(debug=True)
