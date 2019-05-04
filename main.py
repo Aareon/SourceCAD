@@ -137,7 +137,7 @@ def registration():
                 flash("Incorrect access token", "error")
                 return render_template("registration.html")
 
-        if check_email(email) is False:
+        if not check_email(email):
             flash("Please enter an email.", "error")
             return render_template("registration.html")
 
@@ -421,6 +421,14 @@ def admin():
             else:
                 flash("There has been an error!")
                 return redirect(url_for("admin"))
+
+        if request.form.get("removeUser"):
+            flash(
+                "User has been deleted.", "success"
+            )
+            db.remove_user(request.form["user_name"])
+            return redirect(url_for("admin"))
+
 
     if request.method == "GET":
         with open("access_token.txt") as f:

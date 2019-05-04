@@ -337,6 +337,12 @@ class Database:
         ).delete()
         self.session.commit()
 
+    def remove_user(self, username):
+        self.session.query(User).filter_by(
+            username=username
+        ).delete()
+        self.session.commit()
+
     def get_callouts(self):
         return self.session.query(
             Callout.id,
